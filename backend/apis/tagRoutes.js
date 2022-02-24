@@ -2,6 +2,7 @@ const express = require('express');
 const Libs = require('../libs');
 const { TagModel } = require('../models/Tag');
 const { baseURL, env } = require('../config');
+const { UserModel } = require('../models/User');
 
 const tagRouter = express.Router();
 
@@ -9,15 +10,51 @@ tagRouter.post('/', createTag);
 
 tagRouter.get('/', getAlltags);
 
+tagRouter.get('/user/:userId', getUserTags);
+
 tagRouter.put('/edit/:tagId([A-Fa-f0-9]{24})', updatetag);
 
-// userRouter.get("/:userId([A-Fa-f0-9]{24})", getUserById);
+tagRouter.get("/:tagId([A-Fa-f0-9]{24})", getTagById);
+
+tagRouter.get("/scan/:tagId([A-Fa-f0-9]{24})", getTagByIdForScan);
 
 tagRouter.delete('/:tagId', deletetag);
 
 function responseError(response, errMessage) {
     let status = 500;
     return response.status(status).send(errMessage);
+}
+
+async function getTagById(req, res){
+    try{
+        const { tagId } = req.params;
+        const result = await TagModel.getTagById(tagId)
+        res.send(result)
+    }catch(err){
+        return responseError(res, err.message);
+    }
+}
+async function getTagByIdForScan(req, res){
+    try{
+        const { tagId } = req.params;
+        const result = await TagModel.getTagById(tagId)
+        const tagObj = result.toObject()
+        const {userId} = result
+        const ownerObj = await UserModel.getById(userId)
+        res.send({...tagObj, owner: ownerObj.name, phoneNumber: ownerObj.phoneNumber, email: ownerObj.email})
+    }catch(err){
+        return responseError(res, err.message);
+    }
+}
+
+async function getUserTags(req, res){
+    try{
+        const {userId} = req.params;
+        const result = await TagModel.getUserTags(userId)
+        res.send(result)
+    }catch(err){
+        return responseError(res, err.message);
+    }
 }
 
 async function deletetag(req, res) {
@@ -64,23 +101,5 @@ async function getAlltags(req, res) {
         return responseError(res, err.message);
     }
 }
-
-// async function updateUser(req, res) {
-//   try {
-//     const newUserObj = await UserModel.updateUser(req.body);
-//     res.send(newUserObj);
-//   } catch (err) {
-//     return responseError(res, err.message);
-//   }
-// }
-// async function getUserById(req, res) {
-//   try {
-//     const { userId } = req.params;
-//     const user = await UserModel.getById(userId);
-//     res.send(user);
-//   } catch (error) {
-//     return response.status(status).send(errMessage);
-//   }
-// }
 
 module.exports = tagRouter;

@@ -51,7 +51,7 @@ const tagRouter = require('./apis/tagRoutes');
 // const filamentRouter = require('./apis/filamentRoutes');
 // const orderRouter = require('./apis/orderRoutes');
 const userRouter = require('./apis/userRoutes');
-// const authRouter = require('./apis/authRoutes');
+const authRouter = require('./apis/authRoutes');
 
 const connectSockets = require('./apis/socketRoutes');
 
@@ -59,7 +59,7 @@ app.use('/api/tag', tagRouter);
 // app.use('/api/order', orderRouter);
 // app.use('/api/filament', filamentRouter);
 app.use('/api/user', userRouter);
-// app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter);
 connectSockets(io);
 
 app.get('/**', (req, res) => {

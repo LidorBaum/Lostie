@@ -25,6 +25,10 @@ const UserSchema = Schema(
             type: String,
             required: true
         },
+        phoneNumber: {
+            type: String,
+            required: true
+        },
         type: {
             type: String,
             required: true,
@@ -43,9 +47,14 @@ UserSchema.plugin(uniqueValidator, {
     message: 'Error, expected {PATH} to be unique.',
 });
 
-UserSchema.statics.getExistanceAndType = function (name) {
-    return this.findOne({ name: { $regex: `^${name}$`, $options: 'i' } });
-};
+// UserSchema.statics.getExistanceAndType = function (name) {
+//     return this.findOne({ name: { $regex: `^${name}$`, $options: 'i' } });
+// };
+
+UserSchema.statics.getUserByEmail = function(email){
+    console.log(email);
+    return this.findOne({email:{$regex: `^${email}$`, $options: 'i'}})
+}
 
 UserSchema.statics.createUser = function (userObj) {
     return this.create(userObj);

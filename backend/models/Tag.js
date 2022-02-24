@@ -35,31 +35,40 @@ const TagSchema = Schema(
     }
 );
 
-// VaseSchema.statics.updateVase = async function (vaseObj) {
-//     return this.findOneAndUpdate(
-//         { _id: vaseObj._id },
-//         {
-//             $set: {
-//                 name: vaseObj.name,
-//                 type: vaseObj.type,
-//                 image: vaseObj.image,
-//                 sizes: vaseObj.sizes,
-//             },
-//         },
-//         { new: true }
-//     );
-// };
+TagSchema.statics.updateTag = async function (tagObj) {
+    return this.findOneAndUpdate(
+        { _id: tagObj._id },
+        {
+            $set: {
+                dogName: tagObj.dogName,
+                breed: tagObj.breed,
+                image: tagObj.image,
+                gender: tagObj.gender,
+                description: tagObj.description
+            },
+        },
+        { new: true }
+    );
+};
 
 TagSchema.statics.createTag = function (tagObj) {
     return this.create(tagObj);
 };
 
-// VaseSchema.statics.getAllVases = function () {
-//     return this.find({}).exec();
-// };
+TagSchema.statics.getUserTags = function (userId){
+    return this.find({userId: userId}).exec()
+}
 
-// VaseSchema.statics.deleteVase = function (vaseObj) {
-//     return this.deleteOne({ _id: vaseObj });
-// };
+TagSchema.statics.getAllTags = function () {
+    return this.find({}).exec();
+};
+
+TagSchema.statics.getTagById = function (tagId) {
+    return this.findById(tagId);
+};
+
+TagSchema.statics.deleteTag = function (tagId) {
+    return this.deleteOne({ _id: tagId });
+};
 
 exports.TagModel = db.connection.model('Tag', TagSchema);

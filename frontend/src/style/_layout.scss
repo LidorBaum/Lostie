@@ -1,0 +1,35 @@
+.app {
+    // background: linear-gradient(to bottom, #66e9fa 0%, #d5a2d5 100%);
+    // background-color: aqua;
+    // height: 100vh;
+}
+
+.checker {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    display: block;
+    background-color: blue;
+    height: 2500px;
+}
+.spacer {
+    height: 2500px;
+    display: block;
+}
+.bottom {
+    display: block;
+    background-color: pink;
+    height: 2500px;
+}
+body {
+    margin: 0;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: var(--surface-a);
+    font-family: var(--font-family);
+    font-weight: 400;
+    color: var(--text-color);
+ }
