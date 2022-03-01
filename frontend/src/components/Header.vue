@@ -8,14 +8,14 @@
           src="https://res.cloudinary.com/echoshare/image/upload/v1645629438/Lostie/image2vector_iolveb.svg"
         />
       </router-link>
-      <!-- <h1>{{ loggedUser?.name }}USER</h1> -->
       <Button
         v-if="!loggedUser?.name"
         label="Login"
         class="login-btn p-button-text"
         @click="onLogin"
       />
-      <Menubar v-else :model="menuItems" :class="isMenuOpen ? '' : 'menu'"> </Menubar>
+      <Menubar v-else :model="menuItems" :class="isMenuOpen ? '' : 'menu'">
+      </Menubar>
     </div>
     <Dialog
       header="Login"
@@ -23,11 +23,11 @@
       :draggable="false"
       :modal="true"
       :dismissableMask="true"
-      @hide="closeBasic"
+      @hide="closeLogin"
       :style="{ width: '50vw' }"
     >
       <div class="login-popup">
-        <form class="login-form">
+        <form id="login-form" class="login-form" @submit.prevent="tryLogin">
           <InputText
             id="email"
             type="text"
@@ -41,14 +41,16 @@
             v-model="loginCred.password"
             placeholder="Password"
           />
+          <input type="submit" hidden :disabled="isLoading" />
         </form>
         <p>New here? You have to place an order to get account credentials</p>
       </div>
       <template #footer>
         <Button
           label="Login"
+          type="submit"
           icon="pi pi-sign-in"
-          @click="tryLogin"
+          form="login-form"
           :disabled="isLoading"
         />
       </template>
@@ -57,15 +59,27 @@
 </template>
 
 <script>
-import { inject, onMounted, reactive, ref, toRefs } from "vue";
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../store/useUser";
+import { useNotificationStore } from "../store/useNotification";
+import { storeToRefs } from "pinia";
+import { useToast } from "primevue/usetoast";
 import userService from "../services/userService";
-import Cookies from "js-cookie";
+
 export default {
   setup() {
+    const toast = useToast();
+    const router = useRouter();
     let showLogin = ref(false);
     const isLoading = ref(false);
-    const loginCred = reactive({ email: "", password: "" });
+    const emptyCreds = { email: "", password: "" };
+    const loginCred = reactive({ ...emptyCreds });
     const isMenuOpen = ref(false);
+    const userStore = useUserStore();
+    const notificationStore = useNotificationStore();
+    const { loggedUser } = storeToRefs(userStore);
+
     const menuItems = ref([
       {
         label: "Account",
@@ -94,58 +108,59 @@ export default {
         ],
       },
     ]);
+
+
     const tryLogin = async () => {
-      console.log({ ...loggedUser });
       isLoading.value = true;
       if (!loginCred.email || !loginCred.password) {
-        isLoading.value = false;
+      notificationStore.newNotification("error", "missing name / password");
+        return (isLoading.value = false);
+
         //NOTIFICATION
       }
       const user = await userService.login({ ...loginCred });
       if (user.error) {
         isLoading.value = false;
+      notificationStore.newNotification("error", user.error.message);
+
         //NOTIFICATION
         console.log(user.error.message);
         return;
       }
-      setLoggedUser(user);
+      userStore.setLoggedUser(user);
+      loginCred.email = "";
+      loginCred.password = "";
+      isLoading.value = false;
+      notificationStore.newNotification("success", "Logged In Succesfully");
+      // await store.dispatch("User/setUser", user);
       closeLogin();
-      console.log({ ...loggedUser });
     };
 
-    onMounted(async () => {
-      if (Cookies.get("user")) {
-        const userJSON = JSON.parse(Cookies.get("user"));
-        const updated = await userService.getById(userJSON._id);
-        console.log("updated user from db", updated);
-        setLoggedUser(updated);
-      }
-    });
+    const onLogout = async () => {
+      userStore.$reset();
+      userService.logout();
+      notificationStore.newNotification("warn", "Logged Out")
+      return router.push("/");
+    };
+
     const onLogin = () => {
       showLogin.value = true;
     };
     const closeLogin = () => {
       showLogin.value = false;
     };
-    const onLogout = () => {
-      userService.logout();
-      setLoggedUser(null);
-      return router.push('/')
-    };
-    const loggedUser = inject("loggedUser");
-    const setLoggedUser = inject("setLoggedUser");
+
     return {
       onLogout,
       showLogin,
       onLogin,
       tryLogin,
       closeLogin,
-      loggedUser,
-      setLoggedUser,
       loginCred,
       isLoading,
       isMenuOpen,
       menuItems,
+      loggedUser,
     };
   },
 };

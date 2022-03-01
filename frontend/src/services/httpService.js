@@ -23,7 +23,6 @@ export default {
 
 async function ajax(endpoint, method = 'get', data = null) {
     try {
-        console.log(`${API_URL}${endpoint}`);
         const res = await axios({
             url: `${API_URL}${endpoint}`,
             method,

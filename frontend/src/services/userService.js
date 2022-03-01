@@ -28,7 +28,6 @@ function getUsers() {
 }
 
 function getById(userId) {
-    console.log(userId);
     return httpService.get(`user/${userId}`);
 }
 function remove(userId) {

@@ -1,27 +1,57 @@
 <template>
   <div class="app">
-    <Header />
+    <Toast position="bottom-right" />
+    <Header  />
     <router-view />
   </div>
 </template>
 
 <script>
-import { onMounted, provide , ref, reactive, toRefs} from '@vue/runtime-core';
+import { onMounted, watch } from "vue";
+import Cookies from "js-cookie";
+import { useNotificationStore } from "./store/useNotification";
+import { useUserStore } from "./store/useUser";
+import { storeToRefs } from "pinia";
 import Header from "./components/Header.vue";
+import { useToast } from "primevue/usetoast";
+import userService from "./services/userService";
+
 export default {
-  setup(){
-    let loggedUser = reactive({})
-    provide('loggedUser', loggedUser)
-    const setLoggedUser = (user) =>{
-              Object.assign(loggedUser, user) // equivalent to reassign 
-    }
-    provide('setLoggedUser', setLoggedUser)
-    onMounted(()=>{
-      // setTimeout(()=> provider({name: "YOSSI"}), 3000)
+  setup() {
+    const toast = useToast();
+    const userStore = useUserStore();
+    const notificationStore = useNotificationStore();
+    const { notificationData } = storeToRefs(notificationStore);
+    const { loggedUser } = storeToRefs(userStore);
+
+    notificationStore.$subscribe((mutation, state)=>{
+      console.log('mutateion subscribed');
+      showNotification(
+        notificationData.value.severity,
+        notificationData.value.summary
+      );
     })
-    return{
-      ...toRefs(loggedUser)
-    }
+
+    const showNotification = (severity, summary, detail = "") => {
+      toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000,
+      });
+    };
+
+    onMounted(async () => {
+      if (Cookies.get("user")) {
+        const userJSON = JSON.parse(Cookies.get("user"));
+        const updated = await userService.getById(userJSON._id);
+        userStore.setLoggedUser(updated);
+      }
+    });
+    return {
+      loggedUser,
+      notificationData
+    };
   },
   components: {
     Header,
