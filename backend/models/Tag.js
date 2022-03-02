@@ -28,6 +28,11 @@ const TagSchema = Schema(
             type: String,
             default: ''
         },
+        productId:{
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'Product'
+        },
         userId:{
             type: Schema.Types.ObjectId,
             required: true,

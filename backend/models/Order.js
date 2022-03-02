@@ -3,7 +3,7 @@ const Libs = require('../libs');
 
 const Schema = db.mongoose.Schema;
 
-const TagSchema = Schema(
+const OrderSchema = Schema(
     {
         status:{
             type: String,

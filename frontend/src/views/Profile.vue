@@ -47,6 +47,7 @@ export default {
     const getUserTags = async () => {
       if (!loggedUser.value) return;
       const res = await tagService.getUserTags(loggedUser.value._id);
+      console.log(res);
       userTags.value = res;
       return res;
     };

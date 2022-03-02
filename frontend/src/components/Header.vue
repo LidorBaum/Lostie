@@ -136,7 +136,6 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "../store/useUser";
 import { useNotificationStore } from "../store/useNotification";
 import { storeToRefs } from "pinia";
-import { useToast } from "primevue/usetoast";
 import userService from "../services/userService";
 
 export default {

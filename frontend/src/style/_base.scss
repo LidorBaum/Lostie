@@ -23,7 +23,9 @@ body {
 .content{
     padding: 0 30px;
     background-color: $clr2;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 

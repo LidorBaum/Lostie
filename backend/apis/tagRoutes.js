@@ -3,6 +3,7 @@ const Libs = require('../libs');
 const { TagModel } = require('../models/Tag');
 const { baseURL, env } = require('../config');
 const { UserModel } = require('../models/User');
+const { ProductModel } = require('../models/Product');
 
 const tagRouter = express.Router();
 
@@ -51,7 +52,23 @@ async function getUserTags(req, res){
     try{
         const {userId} = req.params;
         const result = await TagModel.getUserTags(userId)
-        res.send(result)
+        const productsIds = result.map(tag => tag.productId)
+        const products = await ProductModel.getProductsByIds(productsIds)
+        
+        const productsMapping = products.reduce(
+            (map, product) => map.set(product._id.toString(), product),
+            new Map()
+        )
+        console.log(productsMapping, '62');
+        const final = result.map(tag => {
+            return {
+                ...tag.toObject(),
+                _id: tag._id.toString(),
+                productDetails: productsMapping.get(tag.productId.toString())
+            };
+        });
+        console.log(final);
+        res.send(final)
     }catch(err){
         return responseError(res, err.message);
     }

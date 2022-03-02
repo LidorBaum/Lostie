@@ -29,6 +29,14 @@ const routes = [
       requiresLogged: true 
     }
   },
+  {
+    path: '/order',
+    name: 'Order',
+    component: () => import('../views/Order.vue'),
+    meta: {
+      requiresLogged: true 
+    }
+  },
 
 ]
 
