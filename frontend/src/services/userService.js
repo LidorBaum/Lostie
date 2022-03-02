@@ -44,12 +44,14 @@ function updateUser(user) {
 
 async function login(userCred) {
     const user = await httpService.post('auth/login', userCred);
+    if(user.error) return user
     return _handleLogin(user);
 }
 
 
 async function signup(userCred) {
     const user = await httpService.post('auth/signup', userCred);
+    if(user.error) return user
     return _handleLogin(user);
 }
 async function logout() {

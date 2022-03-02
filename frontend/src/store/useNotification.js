@@ -9,7 +9,6 @@ export const useNotificationStore = defineStore("notification", {
     }),
     actions: {
         newNotification(severity, summary) {
-            console.log('I am planning new notfi', severity, summary);
             this.notificationData = {
                 severity,
                 summary

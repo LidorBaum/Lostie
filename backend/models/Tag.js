@@ -9,6 +9,11 @@ const TagSchema = Schema(
             type: String,
             required: true,
         },
+        status:{
+            type: String,
+            enum: ['Active', 'Inactive', 'Pending', 'Lost' ],
+            default: 'Pending'
+        },
         image: {
             type: String,
         },
@@ -17,7 +22,7 @@ const TagSchema = Schema(
         },
         gender: {
             type: String,
-            enun: ['M', 'F']
+            enum: ['M', 'F']
         },
         description: {
             type: String,
@@ -25,7 +30,8 @@ const TagSchema = Schema(
         },
         userId:{
             type: Schema.Types.ObjectId,
-            required: true
+            required: true,
+            ref: 'User',
         }
     },
     {

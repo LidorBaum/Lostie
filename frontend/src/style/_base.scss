@@ -7,13 +7,25 @@ html {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     font-size: 16px;
+    background-color: $clr2;
+
     // direction: rtl;
 }
+.app{
+    background-color: $clr2;
 
+}
 
 body {
     margin: 0;
 }
+
+.content{
+    padding: 0 30px;
+    background-color: $clr2;
+
+}
+
 
 h1,
 h2,
@@ -81,4 +93,8 @@ a,
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+
+.loader-div{
+    position: relative;
 }

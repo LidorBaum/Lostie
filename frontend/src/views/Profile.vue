@@ -1,23 +1,32 @@
 <template>
   <div>
     <div v-if="loggedUser?.name" class="user-profile">
-      <h1>{{ loggedUser.name }}</h1>
-      <h1>{{ loggedUser._id }}</h1>
-      <h2>{{ loggedUser.email }}</h2>
-      <h2>{{ loggedUser.address }}</h2>
-      <h2>{{ loggedUser.phoneNumber }}</h2>
-      <div class="user-tags">
-        <h1>My Tags</h1>
-        <article v-for="tag in userTags" :key="tag._id">
-          <h1>{{ tag.dogName }}</h1>
-        </article>
+      <div class="container">
+        <h1 class="title">Info</h1>
+        <div class="user-info">
+          <h1>Owner: {{ loggedUser.name }}</h1>
+          <h2>Email: {{ loggedUser.email }}</h2>
+          <h2>Adrress: {{ loggedUser.address }}</h2>
+          <h2>Phone Number: {{ loggedUser.phoneNumber }}</h2>
+        </div>
+      </div>
+      <div class="container">
+        <h1 class="title">My Tags</h1>
+        <div class="user-tags">
+          <div class="tags-list">
+            <a v-for="tag in userTags" :key="tag._id" :href="`tag/${tag._id}`">
+              <article class="tag-card" :class="tag.status.toLowerCase()">
+                <h1>{{ tag.dogName }}</h1>
+                <img :src="tag.image" />
+              </article>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else>
       <ProgressSpinner />
     </div>
-    <h1>{{ counter }}</h1>
-    <button @click="userStore.addOne">FML</button>
   </div>
 </template>
 
@@ -31,30 +40,29 @@ export default {
   setup() {
     const userStore = useUserStore();
 
-    const { counter, loggedUser } = storeToRefs(userStore);
+    const { loggedUser } = storeToRefs(userStore);
 
     const userTags = ref(null);
 
     const getUserTags = async () => {
       if (!loggedUser.value) return;
       const res = await tagService.getUserTags(loggedUser.value._id);
+      userTags.value = res;
       return res;
     };
 
-    // watch(loggedUser, async (loggedUser) => {
-    //   console.log(loggedUser);
-    //   // if (!loggedUser._id) return;
-    //   userTags.value = await getUserTags();
-    // });
+    userStore.$subscribe((mutation, state) => {
+      console.log("user mutataed", loggedUser.value);
+      getUserTags();
+    });
 
     onMounted(async () => {
-      userTags.value = await getUserTags();
+      await getUserTags();
     });
 
     return {
       userTags,
       loggedUser,
-      counter,
       userStore,
     };
   },

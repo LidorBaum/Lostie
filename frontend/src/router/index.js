@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '../store/useUser'
 import Home from '../views/Home.vue'
 
 const routes = [
@@ -23,7 +24,10 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('../views/Profile.vue')
+    component: () => import('../views/Profile.vue'),
+    meta: {
+      requiresLogged: true 
+    }
   },
 
 ]
@@ -31,6 +35,13 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) =>{
+  const store = useUserStore()
+  const requiresLogged = to.matched.some(record => record.meta.requiresLogged)
+  if(requiresLogged && !store.loggedUser) next({name: 'Home'})
+  else next()
 })
 
 export default router

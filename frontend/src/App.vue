@@ -2,7 +2,9 @@
   <div class="app">
     <Toast position="bottom-right" />
     <Header  />
+    <div class="content">
     <router-view />
+    </div>
   </div>
 </template>
 
@@ -25,7 +27,6 @@ export default {
     const { loggedUser } = storeToRefs(userStore);
 
     notificationStore.$subscribe((mutation, state)=>{
-      console.log('mutateion subscribed');
       showNotification(
         notificationData.value.severity,
         notificationData.value.summary
