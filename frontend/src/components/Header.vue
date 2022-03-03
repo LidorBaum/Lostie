@@ -160,32 +160,25 @@ export default {
     const { loggedUser } = storeToRefs(userStore);
 
     const menuItems = ref([
+
       {
-        label: "Account",
-        icon: "pi",
-        command: () => {
-          isMenuOpen.value = !isMenuOpen.value;
-        },
-        items: [
-          {
-            label: "Order New Tag ",
-            icon: "pi pi-fw pi-tag",
-            to: "/order",
-          },
-          {
-            label: 'Profile' ,
-            icon: "pi pi-fw pi-user",
-            to: "/profile",
-          },
-          {
-            label: "Logout ",
-            icon: "pi pi-fw pi-sign-out",
-            command: () => {
-              onLogout();
-            },
-          },
-        ],
+        label: "Order New Tag ",
+        icon: "pi pi-fw pi-tag",
+        to: "/order",
       },
+      {
+        label: "Profile",
+        icon: "pi pi-fw pi-user",
+        to: "/profile",
+      },
+      {
+        label: "Logout ",
+        icon: "pi pi-fw pi-sign-out",
+        command: () => {
+          onLogout();
+        },
+      },
+      
     ]);
 
     const trySignup = async () => {

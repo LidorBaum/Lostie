@@ -34,9 +34,38 @@
             </div>
           </template>
         </Dropdown>
-        <div class="gender-div"><span>Gender:</span><ToggleButton v-model="orderForm.gender" onLabel="Male" offLabel="Female" /></div>
-        
-
+        <div class="gender-div">
+          <span>Gender:</span
+          ><ToggleButton
+            v-model="orderForm.gender"
+            onLabel="Male"
+            offLabel="Female"
+          />
+        </div>
+        <div class="description-div">
+          <span>Description:</span
+          ><Textarea
+            v-model="orderForm.description"
+            :autoResize="true"
+            rows="2"
+            cols="20"
+          />
+        </div>
+        <div class="product-list">
+          <article
+            class="product-card"
+            v-for="product in products"
+            :key="product._id"
+            v-tooltip.top="`${product.title}`"
+            @click="() => selectProduct(product._id)"
+          >
+            <img
+              class="product-image"
+              :src="product.image"
+              :class="product._id === orderForm.productId ? 'selected' : ''"
+            />
+          </article>
+        </div>
         <input type="submit" hidden :disabled="isLoading" />
       </form>
     </div>
@@ -84,10 +113,15 @@ export default {
       products.value = res;
     };
 
+    const selectProduct = (id) => {
+      if (orderForm.productId === id) return orderForm.productId=''
+      orderForm.productId = id;
+    };
+
     onMounted(() => {
       getAvailableProducts();
     });
-    
+
     const genderOptions = ref(["Male", "Female"]);
     const dogBreeds = ref([
       { name: "Husky" },
@@ -106,6 +140,7 @@ export default {
       products,
       dogBreeds,
       genderOptions,
+      selectProduct,
     };
   },
 };

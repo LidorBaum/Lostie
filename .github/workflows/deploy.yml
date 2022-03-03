@@ -1,0 +1,45 @@
+name: Deploy
+
+on:
+    workflow_dispatch:
+        inputs:
+            deploy:
+                description: 'Should deploy (n/y)'
+                default: 'n'
+                required: false
+    push:
+        branches:
+            - main
+jobs:
+    heroku-deploy:
+        if: ${{ github.event_name == 'push' || github.event.inputs.deploy == 'y' }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: Heroku login credentials
+              run: |
+                  cat <<EOF > ~/.netrc
+                  machine api.heroku.com
+                    login $HEROKU_EMAIL
+                    password $HEROKU_API_KEY
+                  machine git.heroku.com
+                    login $HEROKU_EMAIL
+                    password $HEROKU_API_KEY
+                  EOF
+              env:
+                  HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            - name: Check login credentials
+              run: |
+                  heroku auth:whoami
+            - name: Add Heroku remote
+              run: |
+                  heroku git:remote --app $HEROKU_APP_NAME
+              env:
+                  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+            - name: Push to Heroku
+              run: |
+                  git push heroku ${{ github.ref_name }}:main --force
