@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "heroku-prebuild": "cd frontend && npm install && npm run build && cd ../ && npm run move-build",
-    "move-build": "mkdir -p backend/public && mv -fv frontend/dist/* backend/public"
+    "build": "vue-cli-service build"
+
   },
   "dependencies": {
     "axios": "^0.26.0",

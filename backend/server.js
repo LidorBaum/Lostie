@@ -51,6 +51,7 @@ const tagRouter = require('./apis/tagRoutes');
 const productRouter = require('./apis/productRoutes');
 // const filamentRouter = require('./apis/filamentRoutes');
 // const orderRouter = require('./apis/orderRoutes');
+const orderRouter = require('./apis/orderRoutes');
 const userRouter = require('./apis/userRoutes');
 const authRouter = require('./apis/authRoutes');
 
@@ -60,6 +61,7 @@ app.use('/api/tag', tagRouter);
 // app.use('/api/order', orderRouter);
 // app.use('/api/filament', filamentRouter);
 app.use('/api/product', productRouter);
+app.use('/api/order', orderRouter);
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 connectSockets(io);

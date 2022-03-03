@@ -2,14 +2,15 @@
   <div class="order-page">
     <div v-if="products">
       <h1>Place New Order</h1>
-      <form id="order-form" class="order-form" @submit.prevent="tryLogin">
+      <form id="order-form" class="order-form" @submit.prevent="onPlaceOrder">
         <InputText
           id="petName"
           type="text"
           v-model="orderForm.petName"
           autofocus
           placeholder="Pet Name"
-          class="inputField"
+          class="inputField "
+          required="true"
         />
         <Dropdown
           v-model="orderForm.breed"
@@ -51,6 +52,18 @@
             cols="20"
           />
         </div>
+
+        <div className="form-img">
+          <label htmlFor="img-input">
+            <img
+              alt="profile img"
+              className="primary-img"
+              :src="orderForm.image"
+            />
+            <input id="img-input" hidden type="file" @change="onUploadImg" />
+          </label>
+        </div>
+
         <div class="product-list">
           <article
             class="product-card"
@@ -66,8 +79,13 @@
             />
           </article>
         </div>
-        <input type="submit" hidden :disabled="isLoading" />
       </form>
+    <Button 
+    label="Place Order"
+    type="submit"
+    form="order-form"
+    />
+
     </div>
     <div v-else class="loader-div">
       <FingerprintSpinner
@@ -85,7 +103,10 @@ import { onMounted, reactive, ref } from "vue";
 import { useUserStore } from "../store/useUser";
 import { storeToRefs } from "pinia";
 import productService from "../services/productService";
+import orderService from "../services/orderService";
 import { FingerprintSpinner } from "epic-spinners";
+import { uploadImg } from '../services/cloudinaryService';
+
 
 export default {
   components: {
@@ -98,11 +119,13 @@ export default {
     const products = ref(null);
     const orderForm = reactive({
       petName: "",
-      image: "",
+      image:
+        "https://res.cloudinary.com/echoshare/image/upload/v1646337100/Lostie/59-590299_transparent-download-husky-dog-silhouette-at-getdrawings-french_a3paqy.png",
       breed: null,
       gender: true,
       description: "",
       productId: "",
+      userId: ""
     });
 
     const getAvailableProducts = async () => {
@@ -114,13 +137,35 @@ export default {
     };
 
     const selectProduct = (id) => {
-      if (orderForm.productId === id) return orderForm.productId=''
+      if (orderForm.productId === id) return (orderForm.productId = "");
       orderForm.productId = id;
     };
 
     onMounted(() => {
       getAvailableProducts();
     });
+
+    const onPlaceOrder = async () =>{
+        console.log('place the order');
+        orderForm.userId = loggedUser.value._id
+        orderForm.gender = orderForm.gender? 'Male': 'Female'
+        orderForm.breed = orderForm.breed.name
+        const order = await orderService.createOrder({...orderForm})
+        if(order.error){
+        return notificationStore.newNotification("error", order.error.message);
+
+        }
+        console.log(order);
+    }
+
+
+     const onUploadImg = async e => {
+        const url = await uploadImg(e);
+        if (!url) {
+        return notificationStore.newNotification("error", 'Oops, could not upload the image. please try again.');
+        }
+        orderForm.image = url
+    };
 
     const genderOptions = ref(["Male", "Female"]);
     const dogBreeds = ref([
@@ -135,13 +180,15 @@ export default {
       { name: "Boxer" },
       { name: "Rottweiler" },
     ]);
-    
+
     return {
       orderForm,
       products,
       dogBreeds,
       genderOptions,
       selectProduct,
+      onUploadImg,
+      onPlaceOrder
     };
   },
 };

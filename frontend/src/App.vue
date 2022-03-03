@@ -1,5 +1,4 @@
 <template>
-<n-config-provider :theme="darkTheme">
   <div class="app">
     <Toast position="bottom-right" />
     <Header  />
@@ -7,7 +6,6 @@
     <router-view />
     </div>
   </div>
-  </n-config-provider>
 </template>
 
 <script>
@@ -19,7 +17,6 @@ import { storeToRefs } from "pinia";
 import Header from "./components/Header.vue";
 import { useToast } from "primevue/usetoast";
 import userService from "./services/userService";
-  import { darkTheme, NConfigProvider } from 'naive-ui'
 
 export default {
   setup() {
@@ -55,12 +52,10 @@ export default {
     return {
       loggedUser,
       notificationData,
-          darkTheme,
     };
   },
   components: {
     Header,
-    NConfigProvider
   },
 };
 </script>

@@ -22,7 +22,7 @@ const TagSchema = Schema(
         },
         gender: {
             type: String,
-            enum: ['M', 'F']
+            enum: ['Male', 'Female']
         },
         description: {
             type: String,
