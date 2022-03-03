@@ -36,11 +36,7 @@ ProductSchema.statics.updateProduct = async function (productObj) {
         { _id: productObj._id },
         {
             $set: {
-                dogName: productObj.dogName,
-                breed: productObj.breed,
-                image: productObj.image,
-                gender: productObj.gender,
-                description: productObj.description
+                
             },
         },
         { new: true }

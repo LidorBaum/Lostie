@@ -5,7 +5,7 @@ const Schema = db.mongoose.Schema;
 
 const TagSchema = Schema(
     {
-        dogName: {
+        petName: {
             type: String,
             required: true,
         },
@@ -51,7 +51,7 @@ TagSchema.statics.updateTag = async function (tagObj) {
         { _id: tagObj._id },
         {
             $set: {
-                dogName: tagObj.dogName,
+                petName: tagObj.petName,
                 breed: tagObj.breed,
                 image: tagObj.image,
                 gender: tagObj.gender,

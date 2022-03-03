@@ -25,17 +25,17 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/Profile.vue'),
-    meta: {
-      requiresLogged: true 
-    }
+    // meta: {
+    //   requiresLogged: true 
+    // }
   },
   {
     path: '/order',
     name: 'Order',
     component: () => import('../views/Order.vue'),
-    meta: {
-      requiresLogged: true 
-    }
+    // meta: {
+    //   requiresLogged: true 
+    // }
   },
 
 ]

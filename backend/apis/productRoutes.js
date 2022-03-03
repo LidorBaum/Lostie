@@ -2,23 +2,18 @@ const express = require('express');
 const Libs = require('../libs');
 const { ProductModel } = require('../models/Product');
 const { baseURL, env } = require('../config');
-const { UserModel } = require('../models/User');
 
 const productRouter = express.Router();
 
 productRouter.post('/', createProduct);
 
-productRouter.get('/', getAllproducts);
+productRouter.get('/', getAllProducts);
 
-productRouter.get('/user/:userId', getUserProducts);
-
-productRouter.put('/edit/:productId([A-Fa-f0-9]{24})', updateproduct);
+productRouter.put('/edit/:productId([A-Fa-f0-9]{24})', updateProduct);
 
 productRouter.get("/:productId([A-Fa-f0-9]{24})", getProductById);
 
-productRouter.get("/scan/:productId([A-Fa-f0-9]{24})", getProductByIdForScan);
-
-productRouter.delete('/:productId', deleteproduct);
+productRouter.delete('/:productId', deleteProduct);
 
 function responseError(response, errMessage) {
     let status = 500;
@@ -34,35 +29,15 @@ async function getProductById(req, res){
         return responseError(res, err.message);
     }
 }
-async function getProductByIdForScan(req, res){
-    try{
-        const { productId } = req.params;
-        const result = await ProductModel.getProductById(productId)
-        const productObj = result.toObject()
-        const {userId} = result
-        const ownerObj = await UserModel.getById(userId)
-        res.send({...productObj, owner: ownerObj.name, phoneNumber: ownerObj.phoneNumber, email: ownerObj.email})
-    }catch(err){
-        return responseError(res, err.message);
-    }
-}
 
-async function getUserProducts(req, res){
-    try{
-        const {userId} = req.params;
-        const result = await ProductModel.getUserProducts(userId)
-        res.send(result)
-    }catch(err){
-        return responseError(res, err.message);
-    }
-}
 
-async function deleteproduct(req, res) {
+
+async function deleteProduct(req, res) {
     try {
         const { productId } = req.params;
         if (productId === 'undefined')
             return responseError(res, 'Colud not find product to delete');
-        const result = await productModel.deleteproduct(productId || null);
+        const result = await ProductModel.deleteproduct(productId || null);
         if (result.deletedCount === 0) {
             return responseError(
                 res,
@@ -84,18 +59,18 @@ async function createProduct(req, res) {
         return responseError(res, err.message);
     }
 }
-async function updateproduct(req, res) {
+async function updateProduct(req, res) {
     try {
-        const newproductObj = await productModel.updateproduct(req.body);
+        const newproductObj = await ProductModel.updateproduct(req.body);
         res.send(newproductObj);
     } catch (err) {
         return responseError(res, err.message);
     }
 }
 
-async function getAllproducts(req, res) {
+async function getAllProducts(req, res) {
     try {
-        const products = await productModel.getAllproducts();
+        const products = await ProductModel.getAllProducts();
         res.send(products);
     } catch (err) {
         return responseError(res, err.message);

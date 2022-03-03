@@ -1,7 +1,7 @@
 <template>
   <div class="dog-scan-page">
     <div v-if="tagObj">
-      <h1>{{ tagObj.dogName }}</h1>
+      <h1>{{ tagObj.petName }}</h1>
       <img class="dog-image" :src="tagObj.image" />
       <h2>Breed: {{ tagObj.breed }}</h2>
       <h2>Gender: {{ dogGender }}</h2>

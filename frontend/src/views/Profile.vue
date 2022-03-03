@@ -16,8 +16,9 @@
           <div class="tags-list">
             <a v-for="tag in userTags" :key="tag._id" :href="`tag/${tag._id}`">
               <article class="tag-card" :class="tag.status.toLowerCase()">
-                <h1>{{ tag.dogName }}</h1>
-                <img :src="tag.image" />
+                <h1>{{ tag.petName }}</h1>
+                <img class="dog-image" :src="tag.image" />
+                <img class="tag-image" :src="tag.productDetails.image" />
               </article>
             </a>
           </div>

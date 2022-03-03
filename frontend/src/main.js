@@ -9,6 +9,10 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext';
 import ProgressSpinner from 'primevue/progressspinner';
 import Menubar from 'primevue/menubar';
+import Dropdown from 'primevue/dropdown';
+import RadioButton from 'primevue/radiobutton';
+import SelectButton from 'primevue/selectbutton';
+import ToggleButton from 'primevue/togglebutton';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
@@ -25,6 +29,10 @@ app.component('ProgressSpinner', ProgressSpinner)
 app.component('Toast', Toast)
 app.component('Button', Button)
 app.component('Dialog', Dialog)
+app.component('RadioButton', RadioButton )
+app.component('SelectButton', SelectButton )
+app.component('ToggleButton', ToggleButton)
 app.component('Menubar', Menubar)
+app.component('Dropdown', Dropdown)
 app.component('InputText', InputText)
 app.use(router).mount('#app')
