@@ -1,5 +1,5 @@
-const environment = process.env.REACT_APP_ENVIRONMENT || 'dev';
-
+const environment = process.env.VUE_APP_ENVIRONMENT || 'dev';
+console.log(environment);
 function tryRequire(environment) {
     try {
         return require(`./${environment}`);

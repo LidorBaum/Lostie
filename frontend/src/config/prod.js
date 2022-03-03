@@ -1,4 +1,4 @@
 module.exports = {
-    // baseURL: 'https://cubee3dordermanagement.herokuapp.com',
+    baseURL: 'https://lostie.herokuapp.com',
     env: 'prod',
 };

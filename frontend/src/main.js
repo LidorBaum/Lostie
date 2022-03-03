@@ -14,6 +14,8 @@ import RadioButton from 'primevue/radiobutton';
 import SelectButton from 'primevue/selectbutton';
 import ToggleButton from 'primevue/togglebutton';
 import Toast from 'primevue/toast';
+import Textarea from 'primevue/textarea';
+import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
 
@@ -21,13 +23,28 @@ import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'                           //icons
 
+
+// import {
+//     create,
+//     NButton,
+//     NInput,
+
+// } from 'naive-ui'
+
+// const naive = create({
+//     components: [NButton, NInput]
+//   })
+
 const app= createApp(App)
 app.use(PrimeVue)
 app.use(createPinia())
 app.use(ToastService);
+// app.use(naive)
+app.directive('tooltip', Tooltip);
 app.component('ProgressSpinner', ProgressSpinner)
 app.component('Toast', Toast)
 app.component('Button', Button)
+app.component('Textarea', Textarea)
 app.component('Dialog', Dialog)
 app.component('RadioButton', RadioButton )
 app.component('SelectButton', SelectButton )
