@@ -135,6 +135,7 @@ export default {
       { name: "Boxer" },
       { name: "Rottweiler" },
     ]);
+    
     return {
       orderForm,
       products,
