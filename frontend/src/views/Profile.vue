@@ -14,13 +14,34 @@
         <h1 class="title">My Tags</h1>
         <div class="user-tags">
           <div class="tags-list">
-            <a v-for="tag in userTags" :key="tag._id" :href="`tag/${tag._id}`">
-              <article class="tag-card" :class="tag.status.toLowerCase()">
+            <a
+              v-for="tag in userTags"
+              :key="tag._id"
+              :href="`tag/manage/${tag._id}`"
+            >
+              <article
+                class="tag-card"
+                v-tooltip.top="`${tag.status}`"
+                :class="tag.status.toLowerCase()"
+              >
                 <h1>{{ tag.petName }}</h1>
                 <img class="dog-image" :src="tag.image" />
                 <img class="tag-image" :src="tag.productDetails.image" />
               </article>
             </a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <h3>What's the glow color means?</h3>
+        <div class="colors-map">
+          <div
+            v-for="color in colors"
+            class="color-and-desc-cont"
+            :key="color.name"
+          >
+            <div class="color-div" :class="color.color"></div>
+            <p>- {{ color.desc }}</p>
           </div>
         </div>
       </div>
@@ -48,13 +69,11 @@ export default {
     const getUserTags = async () => {
       if (!loggedUser.value) return;
       const res = await tagService.getUserTags(loggedUser.value._id);
-      console.log(res);
       userTags.value = res;
       return res;
     };
 
     userStore.$subscribe((mutation, state) => {
-      console.log("user mutataed", loggedUser.value);
       getUserTags();
     });
 
@@ -62,10 +81,26 @@ export default {
       await getUserTags();
     });
 
+    const colors = [
+      {
+        color: "blue",
+        desc: "The Tag Is Active",
+      },
+      {
+        color: "red",
+        desc: "The Pet Marked As Lost",
+      },
+      {
+        color: "yellow",
+        desc: "Order Placed, Waiting For Tag Activation",
+      },
+    ];
+
     return {
       userTags,
       loggedUser,
       userStore,
+      colors,
     };
   },
 };

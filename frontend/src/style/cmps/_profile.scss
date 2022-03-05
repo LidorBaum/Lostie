@@ -1,72 +1,100 @@
 .user-profile {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  .container {
     display: flex;
-    gap: 60px;
-    justify-content: center;
-    .container{
-        display: flex;
-        flex-direction: column;
+    flex-direction: column;
+  }
+  .colors-map {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: $clr1;
+    border-radius: 10px;
+    padding: 30px;
+    .color-and-desc-cont {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      .color-div {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        background-color: #fff;
+      }
+      .blue {
+        background-color: cornflowerblue;
+      }
+      .red {
+        background-color: indianred;
+      }
+      .yellow {
+        background-color: goldenrod;
+      }
     }
-    .user-info {
+  }
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: $clr1;
+    border-radius: 10px;
+    padding: 20px;
+    // flex-grow: 1;
+  }
+  .title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .user-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: $clr1;
+    border-radius: 10px;
+    padding: 30px;
+    .tags-list {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 30px;
+      width: 400px;
+      .tag-card {
+        background-color: $clr1;
+        color: cornflowerblue;
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px 5px;
+        transition: all 0.2s ease-in-out;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        gap: 25px;
         justify-content: space-between;
-        background-color: $clr1;
-        border-radius: 10px;
-        padding: 20px;
-        flex-grow: 1;
-    }
-    .title{
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-    }
-    .user-tags {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background-color: $clr1;
-        border-radius: 10px;
-        padding: 30px;
-        .tags-list {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 400px;
-            .tag-card {
-                background-color: $clr1;
-                color: cornflowerblue;
-                padding: 10px 20px;
-                border-radius: 10px;
-                box-shadow: 0px 0px 20px 5px;
-                transition: all 0.2s ease-in-out;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 25px;
-                justify-content: space-between;
-                cursor: pointer;
-                &:hover{
-                box-shadow: 0px 0px 20px 10px;
-
-                }
-                .dog-image{
-                    width: 100px;
-                    height: 100px;
-                    object-fit: cover;
-                }
-                .tag-image{
-                    width: 50px;
-                    height: 50px;
-                    object-fit: cover;
-                }
-            }
-            .lost{
-                color: indianred;
-
-            }
-            img {
-            
-            }
+        width: 180px;
+        cursor: pointer;
+        &:hover {
+          box-shadow: 0px 0px 20px 10px;
         }
+        .dog-image {
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+        .tag-image {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+        }
+      }
+      .lost {
+        color: indianred;
+      }
+      .pending {
+        color: goldenrod;
+      }
     }
+  }
 }

@@ -1,15 +1,15 @@
-const environment = process.env.VUE_APP_ENVIRONMENT || 'dev';
+const environment = process.env.VUE_APP_ENVIRONMENT || "dev";
 console.log(environment);
 function tryRequire(environment) {
-    try {
-        return require(`./${environment}`);
-    } catch (err) {
-        if ('MODULE_NOT_FOUND' === err.code) {
-            throw Error(
-                'Incorrect ENVIRONMENT variable set, exiting\nAllowed Environments:\n1. dev\n2. prod'
-            );
-        }
+  try {
+    return require(`./${environment}`);
+  } catch (err) {
+    if ("MODULE_NOT_FOUND" === err.code) {
+      throw Error(
+        "Incorrect ENVIRONMENT variable set, exiting\nAllowed Environments:\n1. dev\n2. prod"
+      );
     }
+  }
 }
 
 const envConfig = tryRequire(environment);

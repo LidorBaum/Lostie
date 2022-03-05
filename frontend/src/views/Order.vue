@@ -9,7 +9,7 @@
           v-model="orderForm.petName"
           autofocus
           placeholder="Pet Name"
-          class="inputField "
+          class="inputField"
           required="true"
         />
         <Dropdown
@@ -80,12 +80,7 @@
           </article>
         </div>
       </form>
-    <Button 
-    label="Place Order"
-    type="submit"
-    form="order-form"
-    />
-
+      <Button label="Place Order" type="submit" form="order-form" />
     </div>
     <div v-else class="loader-div">
       <FingerprintSpinner
@@ -105,8 +100,7 @@ import { storeToRefs } from "pinia";
 import productService from "../services/productService";
 import orderService from "../services/orderService";
 import { FingerprintSpinner } from "epic-spinners";
-import { uploadImg } from '../services/cloudinaryService';
-
+import { uploadImg } from "../services/cloudinaryService";
 
 export default {
   components: {
@@ -125,7 +119,7 @@ export default {
       gender: true,
       description: "",
       productId: "",
-      userId: ""
+      userId: "",
     });
 
     const getAvailableProducts = async () => {
@@ -145,26 +139,25 @@ export default {
       getAvailableProducts();
     });
 
-    const onPlaceOrder = async () =>{
-        console.log('place the order');
-        orderForm.userId = loggedUser.value._id
-        orderForm.gender = orderForm.gender? 'Male': 'Female'
-        orderForm.breed = orderForm.breed.name
-        const order = await orderService.createOrder({...orderForm})
-        if(order.error){
+    const onPlaceOrder = async () => {
+      orderForm.userId = loggedUser.value._id;
+      orderForm.gender = orderForm.gender ? "Male" : "Female";
+      orderForm.breed = orderForm.breed.name;
+      const order = await orderService.createOrder({ ...orderForm });
+      if (order.error) {
         return notificationStore.newNotification("error", order.error.message);
+      }
+    };
 
-        }
-        console.log(order);
-    }
-
-
-     const onUploadImg = async e => {
-        const url = await uploadImg(e);
-        if (!url) {
-        return notificationStore.newNotification("error", 'Oops, could not upload the image. please try again.');
-        }
-        orderForm.image = url
+    const onUploadImg = async (e) => {
+      const url = await uploadImg(e);
+      if (!url) {
+        return notificationStore.newNotification(
+          "error",
+          "Oops, could not upload the image. please try again."
+        );
+      }
+      orderForm.image = url;
     };
 
     const genderOptions = ref(["Male", "Female"]);
@@ -188,9 +181,8 @@ export default {
       genderOptions,
       selectProduct,
       onUploadImg,
-      onPlaceOrder
+      onPlaceOrder,
     };
   },
 };
 </script>
-

@@ -160,7 +160,6 @@ export default {
     const { loggedUser } = storeToRefs(userStore);
 
     const menuItems = ref([
-
       {
         label: "Order New Tag ",
         icon: "pi pi-fw pi-tag",
@@ -178,23 +177,18 @@ export default {
           onLogout();
         },
       },
-      
     ]);
 
     const trySignup = async () => {
       isLoading.value = true;
       if (Object.values(signupCreds).some((field) => !field)) {
-        console.log("missing creds");
         notificationStore.newNotification("error", "missing fields!");
         return (isLoading.value = false);
       }
-      console.log("passed validation", { ...signupCreds });
       const newUser = await userService.signup({ ...signupCreds });
-      console.log(newUser);
       if (newUser.error) {
         isLoading.value = false;
         notificationStore.newNotification("error", newUser.error.message);
-        console.log(newUser.error.message);
         return;
       }
       userStore.setLoggedUser(newUser);
@@ -231,14 +225,11 @@ export default {
     };
 
     const swapForms = () => {
-      console.log("swapping");
       if (showLogin.value) {
-        console.log("login is open, switching to signup");
         showLogin.value = false;
         showSignup.value = true;
         return;
       }
-      console.log("signup is open, switching to login");
       showSignup.value = false;
       showLogin.value = true;
     };

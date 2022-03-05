@@ -4,13 +4,13 @@
       <h1>{{ tagObj.petName }}</h1>
       <img class="dog-image" :src="tagObj.image" />
       <h2>Breed: {{ tagObj.breed }}</h2>
-      <h2>Gender: {{ dogGender }}</h2>
+      <h2>Gender: {{ tagObj.breed }}</h2>
       <p>{{ tagObj.description }}</p>
       <h1>Owner: {{ tagObj.owner }}</h1>
       <h2>Phone Number: {{ tagObj.phoneNumber }}</h2>
       <h2>Email: {{ tagObj.email }}</h2>
     </div>
-    <div    v-else class="loader-div">
+    <div v-else class="loader-div">
       <FingerprintSpinner
         :animation-duration="1400"
         :size="300"
@@ -19,7 +19,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import { ref, reactive, onMounted, computed, watch } from "vue";
@@ -36,9 +35,7 @@ export default {
     let tagObj = ref(null);
 
     const fetchTagObj = async (tagId) => {
-      console.log(tagId, "newId from fetch");
       const tag = await tagService.getTagByIdForScan(tagId);
-      console.log(tag);
       tagObj.value = tag;
     };
 
@@ -49,22 +46,19 @@ export default {
       }, 1500);
     });
 
-    const dogGender = computed(() => {
-      // if(!tagObj) return
-      return tagObj?.breed === "M" ? "Male" : "Female";
-    });
+    // const dogGender = computed(() => {
+    //   return tagObj?.breed === "M" ? "Male" : "Female";
+    // });
 
     watch(
       () => route.params.id,
       async (newId) => {
-        console.log(newId);
         tagObj.value = await fetch(newId);
       }
     );
     return {
       tagObj,
       dogGender,
-      // tagName
     };
   },
 };

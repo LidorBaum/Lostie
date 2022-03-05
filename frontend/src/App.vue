@@ -1,11 +1,12 @@
 <template>
   <div class="app">
     <Toast position="bottom-right" />
-    <Header  />
+    <Header />
     <div class="content">
-    <router-view />
+      <router-view />
     </div>
   </div>
+  <ScrollTop />
 </template>
 
 <script>
@@ -26,12 +27,12 @@ export default {
     const { notificationData } = storeToRefs(notificationStore);
     const { loggedUser } = storeToRefs(userStore);
 
-    notificationStore.$subscribe((mutation, state)=>{
+    notificationStore.$subscribe((mutation, state) => {
       showNotification(
         notificationData.value.severity,
         notificationData.value.summary
       );
-    })
+    });
 
     const showNotification = (severity, summary, detail = "") => {
       toast.add({

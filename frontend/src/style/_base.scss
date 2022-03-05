@@ -1,33 +1,32 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    font-family: sans-serif;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    font-size: 16px;
-    background-color: $clr2;
+  font-family: sans-serif;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  font-size: 16px;
+  background-color: $clr2;
+  scroll-behavior: smooth;
 
-    // direction: rtl;
+  // direction: rtl;
 }
-.app{
-    background-color: $clr2;
-
+.app {
+  background-color: $clr2;
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
-.content{
-    padding: 0 30px;
-    background-color: $clr2;
-    display: flex;
-    flex-direction: column;
-    // align-items: center;
+.content {
+  padding: 0 30px;
+  background-color: $clr2;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
 }
-
 
 h1,
 h2,
@@ -36,67 +35,68 @@ h4,
 h5,
 h6,
 p {
-    margin: 0;
+  margin: 0;
 }
 
 button {
-    border: unset;
-    background: unset;
-    padding: none;
-    outline: none;
-    border: 1px solid black;
-    color: black;
-    border-radius: 5px;
+  border: unset;
+  background: unset;
+  padding: none;
+  outline: none;
+  border: 1px solid black;
+  color: black;
+  border-radius: 5px;
 }
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 button:active {
-    color: white;
-    border-color: white;
+  color: white;
+  border-color: white;
 }
 
 input,
 textarea {
-    width: 200px;
-    outline: none;
+  width: 200px;
+  outline: none;
 }
 
 input,
 select {
-    padding: 5px;
-    padding-left: none;
-    border: unset;
-    background: unset;
-    border-bottom: 1px solid black;
+  padding: 5px;
+  padding-left: none;
+  border: unset;
+  background: unset;
+  border-bottom: 1px solid black;
 }
 
 textarea {
-    height: 75px;
+  height: 75px;
 }
 
 a,
 .router-link {
-    text-decoration: none !important;
-    color: unset;
+  text-decoration: none !important;
+  color: unset;
 }
 
 .active {
-    color: lightgreen;
+  color: lightgreen;
 }
 
 .router-link-active {
-    color: green;
+  color: green;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
+  opacity: 0;
 }
 
-.loader-div{
-    position: relative;
+.loader-div {
+  position: relative;
+  margin: 0 auto;
 }

@@ -3,7 +3,9 @@
     <div class="hero">
       <p>Welcome to <strong>Lostie</strong></p>
       <div class="nfc-tag">
-        <img src='https://res.cloudinary.com/echoshare/image/upload/v1646151480/Lostie/lostienfc_tgat3x.png'/>
+        <img
+          src="https://res.cloudinary.com/echoshare/image/upload/v1646151480/Lostie/lostienfc_tgat3x.png"
+        />
       </div>
     </div>
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
