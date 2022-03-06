@@ -1,0 +1,15 @@
+.tag-manage {
+  display: flex;
+  gap: 30px;
+  .tag-scan-preview {
+    width: 180px;
+    height: 420px;
+    font-size: 10px;
+    background-color: #fff;
+  }
+  .tag-info {
+    width: 200px;
+    height: 100px;
+    background-color: beige;
+  }
+}

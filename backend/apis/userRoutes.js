@@ -92,16 +92,8 @@ async function createUser(req, res) {
 async function updateUser(req, res) {
   try {
     const userObj = req.body;
-    if (userObj.type === "customer") userObj.password = undefined;
-    else {
-      const hash = await bcrypt.hash(userObj.password, saltRounds);
-      userObj.password = hash;
-    }
-    if (
-      userObj.image ===
-      "https://res.cloudinary.com/echoshare/image/upload/v1638211337/1997805_dje7p6.png"
-    )
-      userObj.image = undefined;
+    // const hash = await bcrypt.hash(userObj.password, saltRounds);
+    // userObj.password = hash;
     const newUserObj = await UserModel.updateUser(req.body);
     res.send(newUserObj);
   } catch (err) {

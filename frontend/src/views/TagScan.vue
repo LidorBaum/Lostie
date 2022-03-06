@@ -58,7 +58,6 @@ export default {
     );
     return {
       tagObj,
-      dogGender,
     };
   },
 };

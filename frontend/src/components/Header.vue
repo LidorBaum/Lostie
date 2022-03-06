@@ -207,8 +207,7 @@ export default {
       const user = await userService.login({ ...loginCreds });
       if (user.error) {
         isLoading.value = false;
-        notificationStore.newNotification("error", user.error.message);
-        return;
+        return notificationStore.newNotification("error", user.error.message);
       }
       userStore.setLoggedUser(user);
       resetFields();

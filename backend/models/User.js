@@ -85,9 +85,9 @@ UserSchema.statics.updateUser = function (userObj) {
     {
       $set: {
         name: userObj.name,
-        image: userObj.image || undefined,
-        type: userObj.type,
-        password: userObj.password || undefined,
+        email: userObj.email,
+        address: userObj.address,
+        phoneNumber: userObj.phoneNumber,
       },
     },
     { new: true }

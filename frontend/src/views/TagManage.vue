@@ -3,7 +3,12 @@
   <h1>Tag Managaement</h1>
   <div class="tag-manage" v-if="tagObj">
     <h1>{{ tagObj.petName }}</h1>
+    <div class="tag-scan-preview">
+      <TagScan />
+    </div>
+    <div class="tag-info"></div>
   </div>
+
   <div v-else class="loader-div">
     <FingerprintSpinner
       :animation-duration="1300"
@@ -18,10 +23,12 @@ import { ref, reactive, onMounted, computed, watch } from "vue";
 import tagService from "../services/tagService.js";
 import { FingerprintSpinner } from "epic-spinners";
 import { useRouter, useRoute } from "vue-router";
+import TagScan from "./TagScan.vue";
 
 export default {
   components: {
     FingerprintSpinner,
+    TagScan,
   },
   setup() {
     const route = useRoute();
