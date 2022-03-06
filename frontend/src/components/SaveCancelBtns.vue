@@ -2,17 +2,17 @@
     <!-- eslint-disable vue/no-multiple-template-root -->
     <Button
         type="submit"
-        icon="pi pi-check-circle"
-        form="edit-info-form"
-        v-tooltip.top="'Save'"
-        @click="onSave"
-    />
-    <Button
-        type="submit"
         icon="pi pi-replay"
         form="edit-info-form"
         v-tooltip.top="'Cancel'"
         @click="onCancel"
+    />
+    <Button
+        type="submit"
+        icon="pi pi-check-circle"
+        form="edit-info-form"
+        v-tooltip.top="'Save'"
+        @click="onSave"
     />
 </template>
 

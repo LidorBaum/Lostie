@@ -46,18 +46,19 @@ export default {
             setTimeout(() => {
                 const tagId = route.params.id;
                 fetchTagObj(tagId);
-            }, 1500);
+            }, 100);
         });
 
         // const dogGender = computed(() => {
         //   return tagObj?.breed === "M" ? "Male" : "Female";
         // });
+
+        //when passing through props - dot value not needed
         console.log(props.tagObj);
         watch(
             () => props.tagObj,
-            async newTag => {
-                console.log('tag object mutated');
-                tagObj.value = newTag;
+            async () => {
+                tagObj.value = { ...props.tagObj };
             }
         );
         return {
