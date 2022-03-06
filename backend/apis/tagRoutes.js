@@ -9,17 +9,17 @@ const tagRouter = express.Router();
 
 tagRouter.post("/", createTag);
 
-tagRouter.get("/", getAlltags);
+tagRouter.get("/", getAllTags);
 
 tagRouter.get("/user/:userId", getUserTags);
 
-tagRouter.put("/edit/:tagId([A-Fa-f0-9]{24})", updatetag);
+tagRouter.put("/edit/:tagId([A-Fa-f0-9]{24})", updateTag);
 
 tagRouter.get("/:tagId([A-Fa-f0-9]{24})", getTagById);
 
 tagRouter.get("/scan/:tagId([A-Fa-f0-9]{24})", getTagByIdForScan);
 
-tagRouter.delete("/:tagId", deletetag);
+tagRouter.delete("/:tagId", deleteTag);
 
 function responseError(response, errMessage) {
   let status = 500;
@@ -77,12 +77,12 @@ async function getUserTags(req, res) {
   }
 }
 
-async function deletetag(req, res) {
+async function deleteTag(req, res) {
   try {
     const { tagId } = req.params;
     if (tagId === "undefined")
       return responseError(res, "Colud not find tag to delete");
-    const result = await tagModel.deletetag(tagId || null);
+    const result = await TagModel.deleteTag(tagId || null);
     if (result.deletedCount === 0) {
       return responseError(
         res,
@@ -104,18 +104,18 @@ async function createTag(req, res) {
     return responseError(res, err.message);
   }
 }
-async function updatetag(req, res) {
+async function updateTag(req, res) {
   try {
-    const newtagObj = await tagModel.updatetag(req.body);
+    const newtagObj = await TagModel.updateTag(req.body);
     res.send(newtagObj);
   } catch (err) {
     return responseError(res, err.message);
   }
 }
 
-async function getAlltags(req, res) {
+async function getAllTags(req, res) {
   try {
-    const tags = await tagModel.getAlltags();
+    const tags = await TagModel.getAlltags();
     res.send(tags);
   } catch (err) {
     return responseError(res, err.message);

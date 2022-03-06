@@ -1,15 +1,37 @@
 .tag-manage {
-  display: flex;
-  gap: 30px;
-  .tag-scan-preview {
-    width: 180px;
-    height: 420px;
-    font-size: 10px;
-    background-color: #fff;
-  }
-  .tag-info {
-    width: 200px;
-    height: 100px;
-    background-color: beige;
-  }
+    display: flex;
+    gap: 120px;
+    .tag-info {
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .edit-info-container {
+            display: flex;
+            gap: 10px;
+        }
+        h1,
+        h2 {
+            margin-right: 10px;
+            display: inline;
+            color: blueviolet;
+        }
+        .edit-btn {
+        }
+    }
+    .tag-scan-preview {
+        width: 240px;
+        height: 420px;
+        font-size: 10px;
+        background-color: #fff;
+        overflow: hidden;
+        .dog-scan-page {
+            width: 150px;
+        }
+    }
+    .tag-infoo {
+        width: 200px;
+        height: 100px;
+        background-color: beige;
+    }
 }

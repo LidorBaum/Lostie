@@ -1,73 +1,73 @@
 .header {
-  position: sticky;
-  top: -1px;
-  z-index: 100000;
-  background-color: #0f1724;
+    position: sticky;
+    top: -1px;
+    z-index: 100000;
+    background-color: #0f1724;
 }
 .navbar {
-  // background-color: rgb(182, 237, 255);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px;
-  // border-bottom: 1px solid rgba(255, 255, 255, 0.692);
-  box-shadow: 0 0px 10px #000000;
-  margin-bottom: 30px;
+    // background-color: rgb(182, 237, 255);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.692);
+    box-shadow: 0 0px 10px #000000;
+    margin-bottom: 30px;
 
-  .p-menubar {
-    background-color: transparent;
-    // margin-left: 100px
-    // margin-inline-end: 65px;
-    // transition: margin-inline-end 0.2s ease-in-out;
-  }
-  .logo {
-    width: 80px;
-    filter: invert(100%);
-    // margin-right: 40px;
-    margin-inline-start: 30px;
-  }
-
-  .login-btn {
-    width: 180px;
-    height: 40px;
-    margin-inline-start: 30px;
-    span {
-      font-size: 1rem;
+    .p-menubar {
+        background-color: transparent;
+        // margin-left: 100px
+        // margin-inline-end: 65px;
+        // transition: margin-inline-end 0.2s ease-in-out;
     }
-  }
+    .logo {
+        width: 80px;
+        filter: invert(100%);
+        // margin-right: 40px;
+        margin-inline-start: 30px;
+    }
+
+    .login-btn {
+        width: 180px;
+        height: 40px;
+        margin-inline-start: 30px;
+        span {
+            font-size: 1rem;
+        }
+    }
 }
 .login-popup {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  .login-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    * {
-      width: 90%;
+    gap: 20px;
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        * {
+            width: 90%;
+        }
     }
-  }
 }
 
 .signup-popup {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  .signup-form {
-    align-items: center;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    * {
-      width: 90%;
+    gap: 20px;
+    .signup-form {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        * {
+            width: 90%;
+        }
     }
-  }
 }
 
 .sign-footer-btns {
-  display: flex;
-  justify-content: space-between;
-  // background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    // background-color: #fff;
 }

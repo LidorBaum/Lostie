@@ -1,29 +1,29 @@
 .home-page {
-  .hero {
-    margin-top: 80px;
-    display: flex;
-    align-items: center;
-    gap: 120px;
-    justify-content: center;
-    .nfc-tag {
-      width: 30%;
-      height: 30%;
-      background: linear-gradient(to bottom, #57b2ff, #0086f8);
-      box-shadow: 0px 0px 60px 20px;
-      border-radius: 3.4rem;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
+    .hero {
+        margin-top: 80px;
+        display: flex;
+        align-items: center;
+        gap: 120px;
+        justify-content: center;
+        .nfc-tag {
+            width: 30%;
+            height: 30%;
+            background: linear-gradient(to bottom, #57b2ff, #0086f8);
+            box-shadow: 0px 0px 60px 20px;
+            border-radius: 3.4rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
 
-      img {
-        width: 80%;
-        // height: 80%;
-      }
+            img {
+                width: 80%;
+                // height: 80%;
+            }
+        }
+        p {
+            font-size: 5.5rem;
+        }
     }
-    p {
-      font-size: 5.5rem;
-    }
-  }
 }

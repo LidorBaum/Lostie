@@ -1,60 +1,60 @@
 .order-page {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  .order-form {
     display: flex;
     flex-direction: column;
-    padding: 20px;
     align-items: flex-start;
-    gap: 20px;
-    .gender-div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 25px;
-    }
-    .description-div {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 25px;
-    }
-    .inputField {
-      width: 250px;
-    }
-    .breed-dropdown {
-      width: 250px;
-    }
-    .form-img {
-      .primary-img {
-        cursor: pointer;
-        width: 300px;
-      }
-    }
-    .product-list {
-      display: flex;
-      gap: 20px;
-      .product-card {
-        width: 100px;
-        height: 100px;
-        border-radius: 100%;
-        .product-image {
-          width: 100%;
-          height: 100%;
-          border-radius: 100%;
-          cursor: pointer;
-          transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+    .order-form {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        align-items: flex-start;
+        gap: 20px;
+        .gender-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
         }
-        .selected {
-          transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
-          border-radius: 100%;
-          box-shadow: inset 0 0 30px #fff, inset 20px 0 30px #f0f,
-            inset -20px 0 30px #0ff, inset 20px 0 100px #f0f,
-            inset -20px 0 10px #0ff, 0 0 50px #fff, -10px 0 30px #f0f,
-            10px 0 30px #0ff;
+        .description-div {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 25px;
         }
-      }
+        .inputField {
+            width: 250px;
+        }
+        .breed-dropdown {
+            width: 250px;
+        }
+        .form-img {
+            .primary-img {
+                cursor: pointer;
+                width: 300px;
+            }
+        }
+        .product-list {
+            display: flex;
+            gap: 20px;
+            .product-card {
+                width: 100px;
+                height: 100px;
+                border-radius: 100%;
+                .product-image {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%;
+                    cursor: pointer;
+                    transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+                }
+                .selected {
+                    transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+                    border-radius: 100%;
+                    box-shadow: inset 0 0 30px #fff, inset 20px 0 30px #f0f,
+                        inset -20px 0 30px #0ff, inset 20px 0 100px #f0f,
+                        inset -20px 0 10px #0ff, 0 0 50px #fff,
+                        -10px 0 30px #f0f, 10px 0 30px #0ff;
+                }
+            }
+        }
     }
-  }
 }
