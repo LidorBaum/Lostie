@@ -22,7 +22,7 @@ Please allow about 30 seconds for the server to boot
 
 To run this project locally, clone the repository and run `npm i` in both backend and frontend folders.
 <br />
-in the frontend folder: run `npm run start-dev`
+in the frontend folder: run `npm run serve`
 <br />
 in the backend folder: run `npm run server:dev`
 <br />
