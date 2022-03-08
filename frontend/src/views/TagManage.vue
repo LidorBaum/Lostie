@@ -399,7 +399,7 @@ export default {
                 const tagId = route.params.id;
                 await fetchTagObj(tagId);
                 prepareEditInfoForm();
-            }, 1);
+            }, 100);
         });
 
         const dogBreeds = ref([

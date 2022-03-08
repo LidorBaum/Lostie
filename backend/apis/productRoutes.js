@@ -9,6 +9,8 @@ productRouter.post("/", createProduct);
 
 productRouter.get("/", getAllProducts);
 
+productRouter.get("/ids", getAllProductsIDs);
+
 productRouter.put("/edit/:productId([A-Fa-f0-9]{24})", updateProduct);
 
 productRouter.get("/:productId([A-Fa-f0-9]{24})", getProductById);
@@ -61,6 +63,19 @@ async function updateProduct(req, res) {
   try {
     const newproductObj = await ProductModel.updateproduct(req.body);
     res.send(newproductObj);
+  } catch (err) {
+    return responseError(res, err.message);
+  }
+}
+
+async function getAllProductsIDs(req, res) {
+  try {
+    const products = await ProductModel.getAllProducts();
+    let ids = [];
+    products.forEach((element) => {
+      ids.push(element._id);
+    });
+    res.send(ids);
   } catch (err) {
     return responseError(res, err.message);
   }

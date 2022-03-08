@@ -29,10 +29,12 @@
     margin-bottom: 50px;
     overflow: hidden;
     .gmap {
-        width: 300px;
+        width: 90vw;
         height: 500px;
+        margin: 0 auto;
         .vue-map-container {
-            width: 500px;
+            width: 90vw;
+            margin-top: 80px;
             height: 500px;
         }
     }

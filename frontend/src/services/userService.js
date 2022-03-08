@@ -49,6 +49,23 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
+    const res = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${userCred.address}&key=AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA`,
+        { method: 'GET' }
+    );
+    const data = await res.json();
+    if (!data.results[0]?.geometry)
+        return {
+            error: {
+                message: 'Emotional Damage',
+            },
+        };
+    console.log(data.results[0].geometry.location.lat);
+    console.log(data.results[0].formatted_address);
+    userCred.geocode = {
+        lat: data.results[0].geometry.location.lat,
+        lng: data.results[0].geometry.location.lng,
+    };
     const user = await httpService.post('auth/signup', userCred);
     if (user.error) return user;
     return _handleLogin(user);

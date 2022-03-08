@@ -199,11 +199,15 @@ export default {
             }
             const newUser = await userService.signup({ ...signupCreds });
             if (newUser.error) {
+                var audio = new Audio(require('../assets/Emot.mp3'));
+                console.log(newUser);
                 isLoading.value = false;
                 notificationStore.newNotification(
                     'error',
-                    newUser.error.message
+                    newUser.error.message,
+                    6000
                 );
+                audio.play();
                 return;
             }
             userStore.setLoggedUser(newUser);

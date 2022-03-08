@@ -19,6 +19,7 @@
                 <h1 class="title">My Tags</h1>
                 <div class="user-tags">
                     <Paginator
+                        v-if="userTags.length"
                         v-model:first="first"
                         :rows="2"
                         :totalRecords="userTags.length"
@@ -27,8 +28,11 @@
                         class="tags-paginator"
                     >
                     </Paginator>
-
-                    <div class="tags-list">
+                    <div v-if="!userTags.length" class="tags-list empty">
+                        <h1>No Tags Yet</h1>
+                        <h2>Wanna order one now?</h2>
+                    </div>
+                    <div v-else class="tags-list">
                         <a
                             v-for="tag in userTagsForDisplay"
                             :key="tag._id"

@@ -29,6 +29,18 @@ const UserSchema = Schema(
       type: String,
       required: true,
     },
+    geocode: {
+      type: {
+        lat: {
+          type: Number,
+        },
+        lng: {
+          type: Number,
+        },
+        _id: false,
+      },
+      default: { lat: 32, lng: 34 },
+    },
     type: {
       type: String,
       required: true,

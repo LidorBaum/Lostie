@@ -11,398 +11,146 @@
         </div>
         <div class="gmap">
             <GMapMap
-                :center="{ lat: 32.0155119, lng: 34.7456619 }"
-                :zoom="18"
+                :center="mapCenter"
+                :zoom="5"
                 map-type-id="terrain"
                 :options="options"
             >
+                <GMapMarker
+                    :icon="{
+                        url: 'https://res.cloudinary.com/echoshare/image/upload/v1646780698/Lostie/Paw_Print_pplbst.png',
+                        scaledSize: { width: 37, height: 37 },
+                    }"
+                    :key="index"
+                    v-for="(m, index) in markers"
+                    :position="m.position"
+                >
+                    <GMapInfoWindow :opened="false">
+                        <div><h1>IW</h1></div>
+                    </GMapInfoWindow>
+                </GMapMarker>
             </GMapMap>
         </div>
     </div>
 </template>
 
+
+
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-import { GMapMap } from '@fawmi/vue-google-maps';
+import { GMapMap, GMapMarker, GMapInfoWindow } from '@fawmi/vue-google-maps';
+import { ref, onMounted } from 'vue';
+import { mapStyleGreen, mapStyleDark } from '../services/utils';
+
 export default {
-    name: 'Home',
+    setup() {
+        const mapCenter = ref({ lat: 51.093048, lng: 6.84212 });
+        const options = ref(mapStyleGreen);
+        const markers = ref([
+            {
+                position: {
+                    lat: 31.9730015,
+                    lng: 34.7925013,
+                },
+            },
+            {
+                position: {
+                    lat: 32.013186,
+                    lng: 34.748019,
+                },
+            },
+            {
+                position: {
+                    lat: 32.8304939,
+                    lng: 35.0675388,
+                },
+            },
+            {
+                position: {
+                    lat: 29.5544708,
+                    lng: 34.9403539,
+                },
+            },
+            {
+                position: {
+                    lat: 32.009506,
+                    lng: 34.773048,
+                },
+            },
+            {
+                position: {
+                    lat: 32.1235787,
+                    lng: 34.4342264,
+                },
+            },
+            {
+                position: {
+                    lat: 32.0702477,
+                    lng: 34.7765665,
+                },
+            },
+            {
+                position: {
+                    lat: 32.0215787,
+                    lng: 34.7732264,
+                },
+            },
+            {
+                position: {
+                    lat: 32.0187073,
+                    lng: 34.7394094,
+                },
+            },
+            {
+                position: {
+                    lat: 32.8328185,
+                    lng: 35.0693388,
+                },
+            },
+            {
+                position: {
+                    lat: 32.0220357,
+                    lng: 34.7740891,
+                },
+            },
+        ]);
+        const getUserLocation = () => {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    console.log(position.coords.latitude);
+                    console.log(position.coords.longitude);
+                    mapCenter.value.lat = position.coords.latitude;
+                    mapCenter.value.lng = position.coords.longitude;
+                },
+                async error => {
+                    console.log(error.message);
+                    const res = await navigator.permissions.query({
+                        name: 'geolocation',
+                    });
+                    res.onchange = () => onUserLocationChange();
+                }
+            );
+        };
+        const onUserLocationChange = async () => {
+            getUserLocation();
+        };
+        onMounted(() => {
+            setTimeout(() => {
+                getUserLocation();
+            }, 10);
+        });
+        return {
+            mapCenter,
+            options,
+            markers,
+        };
+    },
     components: {
         HelloWorld,
         GMapMap,
-    },
-    data() {
-        return {
-            center: { lat: 51.093048, lng: 6.84212 },
-            options: {
-                styles: [
-                    // he comes the styles your
-                    {
-                        featureType: 'all',
-                        elementType: 'all',
-                        stylers: [
-                            {
-                                visibility: 'on',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'all',
-                        elementType: 'labels',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                            {
-                                saturation: '-100',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'all',
-                        elementType: 'labels.text.fill',
-                        stylers: [
-                            {
-                                saturation: 36,
-                            },
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 40,
-                            },
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'all',
-                        elementType: 'labels.text.stroke',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 16,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'all',
-                        elementType: 'labels.icon',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'administrative',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 20,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'administrative',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 17,
-                            },
-                            {
-                                weight: 1.2,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'landscape',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 20,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'landscape',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#4d6059',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'landscape',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#4d6059',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'landscape.natural',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#4d6059',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'poi',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                lightness: 21,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'poi',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#4d6059',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'poi',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#4d6059',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                visibility: 'on',
-                            },
-                            {
-                                color: '#7f8d89',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                            {
-                                lightness: 17,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                            {
-                                lightness: 29,
-                            },
-                            {
-                                weight: 0.2,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.arterial',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 18,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.arterial',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.arterial',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.local',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 16,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.local',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'road.local',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#7f8d89',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'transit',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                color: '#000000',
-                            },
-                            {
-                                lightness: 19,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'all',
-                        stylers: [
-                            {
-                                color: '#2b3638',
-                            },
-                            {
-                                visibility: 'on',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'geometry',
-                        stylers: [
-                            {
-                                color: '#2b3638',
-                            },
-                            {
-                                lightness: 17,
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'geometry.fill',
-                        stylers: [
-                            {
-                                color: '#24282b',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'geometry.stroke',
-                        stylers: [
-                            {
-                                color: '#24282b',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels.text',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels.text.fill',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels.text.stroke',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels.icon',
-                        stylers: [
-                            {
-                                visibility: 'off',
-                            },
-                        ],
-                    },
-                ],
-            },
-        };
+        GMapMarker,
+        GMapInfoWindow,
     },
 };
 </script>

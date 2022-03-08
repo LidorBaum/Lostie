@@ -4,12 +4,18 @@ const { UserModel } = require("../models/User");
 const { baseURL, env } = require("../config");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
+const { generateUser } = require("./generateFakeUser");
 const userRouter = express.Router();
 
 userRouter.post("/", createUser);
 
+userRouter.get("/fake/", createFakeUser);
+
 userRouter.get("/", getAllUsers);
+
+userRouter.get("/ids", getAllUsersIDs);
+
+userRouter.get("/geocodes", getAllGeocodes);
 
 userRouter.get("/sorted", getFilteredUsers);
 
@@ -73,14 +79,40 @@ async function getUserById(req, res) {
     return response.status(status).send(errMessage);
   }
 }
+
+async function getAllGeocodes(req, res) {
+  try {
+    const users = await UserModel.getAllUsers();
+    let geos = [];
+    users.forEach((element) => {
+      geos.push({ position: element.geocode });
+    });
+    res.send(geos);
+  } catch (error) {
+    return response.status(status).send(errMessage);
+  }
+}
+
 async function createUser(req, res) {
   try {
     const userObj = req.body;
-    if (userObj.type === "customer") userObj.password = undefined;
-    else {
-      const hash = await bcrypt.hash(userObj.password, saltRounds);
-      userObj.password = hash;
-    }
+    const hash = await bcrypt.hash(userObj.password, saltRounds);
+    userObj.password = hash;
+    const newUser = await UserModel.createUser(userObj);
+    res.send(newUser);
+  } catch (err) {
+    err;
+    return responseError(res, err.message);
+  }
+}
+
+async function createFakeUser(req, res) {
+  try {
+    const { fullName } = req.query;
+    const userObj = await generateUser(fullName);
+    console.log(userObj);
+    const hash = await bcrypt.hash(userObj.password, saltRounds);
+    userObj.password = hash;
     const newUser = await UserModel.createUser(userObj);
     res.send(newUser);
   } catch (err) {
@@ -96,6 +128,19 @@ async function updateUser(req, res) {
     // userObj.password = hash;
     const newUserObj = await UserModel.updateUser(req.body);
     res.send(newUserObj);
+  } catch (err) {
+    return responseError(res, err.message);
+  }
+}
+
+async function getAllUsersIDs(req, res) {
+  try {
+    const users = await UserModel.getAllUsers();
+    let ids = [];
+    users.forEach((element) => {
+      ids.push(element._id);
+    });
+    res.send(ids);
   } catch (err) {
     return responseError(res, err.message);
   }
