@@ -6,7 +6,7 @@ html {
     font-family: sans-serif;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    font-size: 16px;
+    font-size: 12px;
     background-color: $clr2;
     scroll-behavior: smooth;
 
@@ -99,4 +99,9 @@ a,
 .loader-div {
     position: relative;
     margin: 0 auto;
+}
+button:hover,
+button:focus {
+    border: none;
+    outline: none;
 }

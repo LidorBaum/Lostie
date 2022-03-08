@@ -33,6 +33,9 @@
             .yellow {
                 background-color: goldenrod;
             }
+            .purple {
+                background-color: #9a57f1;
+            }
         }
     }
     .user-info {
@@ -55,17 +58,21 @@
         gap: 10px;
         background-color: $clr1;
         border-radius: 10px;
-        padding: 30px;
+        padding: 10px 30px 30px 30px;
+        .tags-paginator {
+            background-color: transparent;
+        }
         .tags-list {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             gap: 30px;
             width: 400px;
+            margin-top: 10px;
             .tag-card {
                 background-color: $clr1;
                 color: cornflowerblue;
-                padding: 10px 20px;
+                padding: 10px 10px;
                 border-radius: 10px;
                 box-shadow: 0px 0px 20px 5px;
                 transition: all 0.2s ease-in-out;
@@ -79,15 +86,15 @@
                 &:hover {
                     box-shadow: 0px 0px 20px 10px;
                 }
-                .dog-image {
-                    width: 100px;
-                    height: 100px;
+                .pet-image {
+                    width: 120px;
+                    height: 120px;
                     object-fit: cover;
                     border-radius: 10px;
                 }
                 .tag-image {
-                    width: 50px;
-                    height: 50px;
+                    width: 70px;
+                    height: 70px;
                     object-fit: cover;
                 }
             }
@@ -96,6 +103,9 @@
             }
             .pending {
                 color: goldenrod;
+            }
+            .inactive {
+                color: #9a57f1;
             }
         }
     }
@@ -108,6 +118,7 @@
     .field {
         display: flex;
         flex-direction: column;
+        gap: 4px;
         label {
             margin-left: 3px;
         }

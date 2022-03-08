@@ -18,9 +18,19 @@
             <div class="container">
                 <h1 class="title">My Tags</h1>
                 <div class="user-tags">
+                    <Paginator
+                        v-model:first="first"
+                        :rows="2"
+                        :totalRecords="userTags.length"
+                        template=" PageLinks  "
+                        @page="onPaging"
+                        class="tags-paginator"
+                    >
+                    </Paginator>
+
                     <div class="tags-list">
                         <a
-                            v-for="tag in userTags"
+                            v-for="tag in userTagsForDisplay"
                             :key="tag._id"
                             :href="`tag/manage/${tag._id}`"
                         >
@@ -30,7 +40,7 @@
                                 :class="tag.status.toLowerCase()"
                             >
                                 <h1>{{ tag.petName }}</h1>
-                                <img class="dog-image" :src="tag.image" />
+                                <img class="pet-image" :src="tag.image" />
                                 <img
                                     class="tag-image"
                                     :src="tag.productDetails.image"
@@ -129,7 +139,7 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, computed } from 'vue';
 import { useUserStore } from '../store/useUser';
 import { useNotificationStore } from '../store/useNotification';
 import { storeToRefs } from 'pinia';
@@ -150,8 +160,25 @@ export default {
             phoneNumber: '',
         };
         const userInfoForm = reactive({ ...emptyUserInfoForm });
+        const currTagsPage = ref(1);
+        const userTags = ref([]);
+        const userTagsForDisplay = ref(
+            computed(() => {
+                if (!userTags.value.length) return [];
+                console.log(currTagsPage.value, 'current page');
+                console.log((currTagsPage.value - 1) * 2);
+                return userTags.value.slice(
+                    (currTagsPage.value - 1) * 2,
+                    2 + (currTagsPage.value - 1) * 2
+                );
+                return userTags.value;
+            })
+        );
 
-        const userTags = ref(null);
+        const onPaging = e => {
+            console.log(e);
+            currTagsPage.value = e.page + 1;
+        };
 
         const getUserTags = async () => {
             if (!loggedUser.value) return;
@@ -231,6 +258,10 @@ export default {
                 color: 'yellow',
                 desc: 'Order Placed, Waiting For Tag Activation',
             },
+            {
+                color: 'purple',
+                desc: 'Tag is currently Inactive',
+            },
         ];
 
         return {
@@ -244,6 +275,8 @@ export default {
             saveInfo,
             userInfoForm,
             isLoading,
+            userTagsForDisplay,
+            onPaging,
         };
     },
 };

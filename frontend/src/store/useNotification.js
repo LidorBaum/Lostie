@@ -5,13 +5,15 @@ export const useNotificationStore = defineStore('notification', {
         notificationData: {
             severity: '',
             summary: '',
+            life: 0,
         },
     }),
     actions: {
-        newNotification(severity, summary) {
+        newNotification(severity, summary, life) {
             this.notificationData = {
                 severity,
                 summary,
+                life,
             };
         },
     },

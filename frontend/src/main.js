@@ -18,6 +18,9 @@ import Textarea from 'primevue/textarea';
 import Tooltip from 'primevue/tooltip';
 import ScrollTop from 'primevue/scrolltop';
 import ToastService from 'primevue/toastservice';
+import Paginator from 'primevue/paginator';
+import VueGoogleMaps from '@fawmi/vue-google-maps';
+
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
 
 // import 'primevue/resources/themes/saga-blue/theme.css'       //theme
@@ -34,13 +37,19 @@ import 'primeicons/primeicons.css'; //icons
 // const naive = create({
 //     components: [NButton, NInput]
 //   })
-
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(createPinia());
 app.use(ToastService);
+app.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA',
+        // language: 'de',
+    },
+});
 // app.use(naive)
 app.directive('tooltip', Tooltip);
+app.component('Paginator', Paginator);
 app.component('ProgressSpinner', ProgressSpinner);
 app.component('Toast', Toast);
 app.component('Button', Button);

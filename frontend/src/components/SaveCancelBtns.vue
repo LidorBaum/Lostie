@@ -20,6 +20,7 @@
 import { ref, computed, reactive } from 'vue';
 
 export default {
+    emits: ['onCancel', 'onSave'],
     props: {
         fieldName: String,
     },
@@ -28,11 +29,9 @@ export default {
             return `${props.fieldName}`;
         });
         function onCancel() {
-            console.log('emiting the even of cancel change');
             ctx.emit('onCancel', fieldName.value);
         }
         function onSave() {
-            console.log('emiting the event of save change');
             ctx.emit('onSave', fieldName.value);
         }
 

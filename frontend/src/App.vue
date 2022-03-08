@@ -1,4 +1,5 @@
 <template>
+    <!-- eslint-disable vue/no-multiple-template-root -->
     <div class="app">
         <Toast position="bottom-right" />
         <Header />
@@ -30,16 +31,23 @@ export default {
         notificationStore.$subscribe((mutation, state) => {
             showNotification(
                 notificationData.value.severity,
-                notificationData.value.summary
+                notificationData.value.summary,
+                notificationData.value.life
             );
         });
 
-        const showNotification = (severity, summary, detail = '') => {
+        const showNotification = (
+            severity,
+            summary,
+            life = 3000,
+            detail = ''
+        ) => {
+            console.log(severity, life);
             toast.add({
                 severity: severity,
                 summary: summary,
                 detail: detail,
-                life: 3000,
+                life: life,
             });
         };
 

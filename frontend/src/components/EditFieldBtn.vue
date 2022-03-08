@@ -12,6 +12,7 @@
 import { computed } from 'vue';
 
 export default {
+    emits: ['onEditField'],
     props: {
         fieldName: String,
     },
@@ -21,7 +22,6 @@ export default {
         });
 
         function onEditField() {
-            console.log('emiting on editing ');
             ctx.emit('onEditField', fieldName.value);
         }
 

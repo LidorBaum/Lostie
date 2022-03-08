@@ -1,138 +1,133 @@
-.order-page {
+.order-page-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.order-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    h1 {
-        width: 100vw;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-    .order-container {
-        display: flex;
-        flex-direction: row;
-        margin: 0 auto;
-        .order-form-container {
-            // background-color: $clr1;
-            width: 50%;
-            .order-form {
+    flex-direction: row;
+    margin: 0 auto;
+    .order-form-container {
+        // background-color: $clr1;
+        width: 50%;
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            align-items: flex-start;
+            gap: 20px;
+            h2 {
+                margin-bottom: -12px;
+            }
+            .fields {
                 display: flex;
                 flex-direction: column;
-                padding: 20px;
+                padding: 40px;
                 align-items: flex-start;
+                align-items: center;
                 gap: 20px;
-                h2 {
-                    margin-bottom: -12px;
+                border-radius: 10px;
+                width: 100%;
+                background-color: $clr1;
+            }
+            .gender-div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 25px;
+                span {
+                    width: 90px;
                 }
-                .fields {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 40px;
-                    align-items: flex-start;
-                    gap: 20px;
-                    border-radius: 10px;
-                    width: 100%;
-                    background-color: $clr1;
+            }
+            .inputField {
+                width: 350px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                .dropdown {
+                    width: 150px;
+                    flex-grow: 1;
                 }
-                .gender-div {
+                .other-input {
                     display: flex;
-                    justify-content: center;
                     align-items: center;
-                    gap: 25px;
-                    span {
-                        width: 90px;
+                    gap: 10px;
+                    .ots {
+                        width: 150px;
                     }
                 }
-                .description-div {
-                    display: flex;
-                    justify-content: center;
-                    align-items: flex-start;
-                    gap: 25px;
-                    span {
-                        width: 90px;
-                    }
+            }
+            .breed-dropdown {
+                width: 250px;
+            }
+            .form-img {
+                .primary-img {
+                    cursor: pointer;
+                    width: 300px;
+                    text-align: center;
                 }
-                .inputField {
-                    width: 350px;
-                    .dropdown {
-                        background-color: #fff;
+            }
+            .product-list {
+                display: flex;
+                gap: 20px;
+                flex-wrap: wrap;
+                border-radius: 10px;
+                padding: 20px;
+                background-color: $clr1;
+                .product-card {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 100%;
+                    .product-image {
                         width: 100%;
-                    }
-                }
-                .breed-dropdown {
-                    width: 250px;
-                }
-                .form-img {
-                    .primary-img {
-                        cursor: pointer;
-                        width: 300px;
-                    }
-                }
-                .product-list {
-                    display: flex;
-                    gap: 20px;
-                    flex-wrap: wrap;
-                    border-radius: 10px;
-                    padding: 20px;
-                    background-color: $clr1;
-                    .product-card {
-                        width: 100px;
-                        height: 100px;
+                        height: 100%;
                         border-radius: 100%;
-                        .product-image {
-                            width: 100%;
-                            height: 100%;
-                            border-radius: 100%;
-                            cursor: pointer;
-                            transition: all 0.6s
-                                cubic-bezier(0.39, 0.575, 0.565, 1);
-                        }
-                        .selected {
-                            transition: all 0.6s
-                                cubic-bezier(0.39, 0.575, 0.565, 1);
-                            border-radius: 100%;
-                            box-shadow: inset 0 0 30px #fff,
-                                inset 20px 0 30px #f0f, inset -20px 0 30px #0ff,
-                                inset 20px 0 100px #f0f, inset -20px 0 10px #0ff,
-                                0 0 50px #fff, -10px 0 30px #f0f,
-                                10px 0 30px #0ff;
-                        }
+                        cursor: pointer;
+                        transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+                    }
+                    .selected {
+                        transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+                        border-radius: 100%;
+                        box-shadow: inset 0 0 30px #fff, inset 20px 0 30px #f0f,
+                            inset -20px 0 30px #0ff, inset 20px 0 100px #f0f,
+                            inset -20px 0 10px #0ff, 0 0 50px #fff,
+                            -10px 0 30px #f0f, 10px 0 30px #0ff;
                     }
                 }
             }
         }
-        .image-container {
-            flex-grow: 1;
+    }
+    .image-container {
+        flex-grow: 1;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        // gap: 100px;
+        .spacer {
+            height: 56px;
+        }
+        button {
+            width: 250px;
+            height: 50px;
+            margin: 0 auto;
+            margin-top: 5%;
+        }
+        .example-image-container {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            // gap: 100px;
-            .spacer {
-                height: 62px;
-            }
-            button {
-                width: 250px;
-                height: 50px;
+            .background-collar {
+                display: block;
+                width: 500px;
+                border-radius: 10px;
                 margin: 0 auto;
-                margin-top: 100px;
+                // text-align: center;
             }
-            .example-image-container {
-                position: relative;
-                .background-collar {
-                    display: block;
-                    width: 500px;
-                    border-radius: 10px;
-                    margin: 0 auto;
-                    // text-align: center;
-                }
-                .tag-image {
-                    width: 80px;
-                    position: absolute;
-                    top: 550px;
-                    left: 58%;
-                    border-radius: 50%;
-                    backdrop-filter: blur(200px);
-                    box-shadow: 1px 1px 40px 5px rgb(255, 240, 191);
-                }
+            .tag-image {
+                width: 80px;
+                position: absolute;
+                top: 550px;
+                left: 58%;
+                border-radius: 50%;
+                backdrop-filter: blur(200px);
+                box-shadow: 1px 1px 40px 5px rgb(255, 240, 191);
             }
         }
     }

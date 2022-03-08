@@ -1,34 +1,33 @@
 <template>
-    <div class="order-page">
-        <Transition name="fade-in" mode="out-in">
-            <div v-if="products">
-                <h1>Order Your Own Lostie Tag</h1>
-                <div class="order-container">
-                    <div class="order-form-container">
-                        <form
-                            id="order-form"
-                            class="order-form"
-                            @submit.prevent="onPlaceOrder"
-                        >
-                            <h2>Pet Info</h2>
-                            <div class="fields">
-                                <InputText
-                                    id="petName"
-                                    type="text"
-                                    v-model="orderForm.petName"
-                                    autofocus
-                                    placeholder="Pet Name"
-                                    class="inputField"
-                                    required="true"
-                                />
-                                <div class="inputField2">
+    <!-- eslint-disable vue/no-multiple-template-root -->
+    <h1 class="order-page-title">Order Your Own Lostie Tag</h1>
+    <Transition name="fade-in" mode="out-in">
+        <div class="order-page" v-if="products">
+            <div class="order-container">
+                <div class="order-form-container">
+                    <form
+                        id="order-form"
+                        class="order-form"
+                        @submit.prevent="onPlaceOrder"
+                    >
+                        <h2>Pet Info</h2>
+                        <div class="fields">
+                            <InputText
+                                id="petName"
+                                type="text"
+                                v-model="orderForm.petName"
+                                autofocus
+                                placeholder="Pet Name"
+                                class="inputField"
+                            />
+                            <div class="inputField">
+                                <span @click="() => onSwitchBreedInput('drop')">
                                     <Dropdown
                                         v-model="orderForm.breed"
                                         :options="dogBreeds"
-                                        optionLabel="name"
-                                        :filter="true"
                                         placeholder="Select Breed"
                                         :showClear="true"
+                                        :disabled="!isBreedFromList"
                                         class="dropdown"
                                     >
                                         <template #value="slotProps">
@@ -37,7 +36,7 @@
                                                 v-if="slotProps.value"
                                             >
                                                 <div>
-                                                    {{ slotProps.value.name }}
+                                                    {{ slotProps.value }}
                                                 </div>
                                             </div>
                                             <span v-else>
@@ -47,98 +46,117 @@
                                         <template #option="slotProps">
                                             <div class="breed-item">
                                                 <div>
-                                                    {{ slotProps.option.name }}
+                                                    {{ slotProps.option }}
                                                 </div>
                                             </div>
                                         </template>
                                     </Dropdown>
-                                </div>
-                                <div class="gender-div">
-                                    <span>Gender:</span
-                                    ><ToggleButton
-                                        v-model="orderForm.gender"
-                                        onLabel="Male"
-                                        offLabel="Female"
-                                    />
-                                </div>
-                                <div class="description-div">
-                                    <span>Description:</span
-                                    ><Textarea
-                                        v-model="orderForm.description"
-                                        :autoResize="true"
-                                        rows="2"
-                                        cols="20"
-                                    />
-                                </div>
-
-                                <div className="form-img">
-                                    <label htmlFor="img-input">
-                                        <img
-                                            alt="profile img"
-                                            className="primary-img"
-                                            :src="orderForm.image"
-                                        />
-                                        <input
-                                            id="img-input"
-                                            hidden
-                                            type="file"
-                                            @change="onUploadImg"
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                            <h2>Tag Style</h2>
-                            <div class="product-list">
-                                <article
-                                    class="product-card"
-                                    v-for="product in products"
-                                    :key="product._id"
-                                    v-tooltip.top="`${product.title}`"
-                                    @click="() => selectProduct(product._id)"
-                                >
-                                    <img
-                                        class="product-image"
-                                        :src="product.image"
-                                        :class="
-                                            product._id === orderForm.productId
-                                                ? 'selected'
-                                                : ''
+                                </span>
+                                <div class="other-input">
+                                    <span> Other: </span>
+                                    <span
+                                        @click="
+                                            () => onSwitchBreedInput('text')
                                         "
-                                    />
-                                </article>
+                                    >
+                                        <InputText
+                                            class="ots"
+                                            :disabled="isBreedFromList"
+                                            v-model="orderFormBreedText"
+                                            v-on:keyup.enter="
+                                                () => onSaveChange('breed')
+                                            "
+                                            v-on:keyup.esc="
+                                                () => onCancelChange('breed')
+                                            "
+                                        />
+                                    </span>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="image-container">
-                        <div class="spacer"></div>
-                        <div class="example-image-container">
-                            <img
-                                class="background-collar"
-                                src="https://res.cloudinary.com/echoshare/image/upload/v1646336671/Lostie/w2jhvyoso7lcml5jcbyj.jpg"
+                            <div class="gender-div">
+                                <span>Gender:</span
+                                ><ToggleButton
+                                    v-model="orderForm.gender"
+                                    onLabel="Male"
+                                    offLabel="Female"
+                                />
+                            </div>
+                            <Textarea
+                                v-model="orderForm.description"
+                                :autoResize="true"
+                                rows="2"
+                                cols="20"
+                                placeholder="Description"
+                                class="inputField"
                             />
-                            <img
-                                class="tag-image"
-                                :src="getSelectedProductImage()"
-                            />
+
+                            <div className="form-img">
+                                <label htmlFor="img-input">
+                                    <img
+                                        alt="profile img"
+                                        className="primary-img"
+                                        :src="orderForm.image"
+                                    />
+                                    <input
+                                        id="img-input"
+                                        hidden
+                                        type="file"
+                                        @change="onUploadImg"
+                                    />
+                                </label>
+                            </div>
                         </div>
-                        <Button
-                            label="Place Order"
-                            type="submit"
-                            form="order-form"
+                        <h2>Tag Style</h2>
+                        <div class="product-list">
+                            <article
+                                class="product-card"
+                                v-for="product in products"
+                                :key="product._id"
+                                v-tooltip.top="`${product.title}`"
+                                @click="() => selectProduct(product._id)"
+                            >
+                                <img
+                                    class="product-image"
+                                    :src="product.image"
+                                    :class="
+                                        product._id === orderForm.productId
+                                            ? 'selected'
+                                            : ''
+                                    "
+                                />
+                            </article>
+                        </div>
+                    </form>
+                </div>
+                <div class="image-container">
+                    <div class="spacer"></div>
+                    <div class="example-image-container">
+                        <img
+                            class="background-collar"
+                            src="https://res.cloudinary.com/echoshare/image/upload/v1646336671/Lostie/w2jhvyoso7lcml5jcbyj.jpg"
+                        />
+                        <img
+                            class="tag-image"
+                            :src="getSelectedProductImage()"
                         />
                     </div>
+                    <Button
+                        label="Place Order"
+                        type="submit"
+                        form="order-form"
+                    />
                 </div>
             </div>
+        </div>
 
-            <div v-else class="loader-div">
-                <FingerprintSpinner
-                    :animation-duration="1400"
-                    :size="300"
-                    color="#ff1d5e"
-                />
-            </div>
-        </Transition>
-    </div>
+        <div v-else class="loader-div">
+            <FingerprintSpinner
+                :animation-duration="1400"
+                :size="300"
+                color="#ff1d5e"
+            />
+        </div>
+    </Transition>
 </template>
 
 <script>
@@ -165,12 +183,14 @@ export default {
         const orderForm = reactive({
             petName: '',
             image: 'https://res.cloudinary.com/echoshare/image/upload/v1646337100/Lostie/59-590299_transparent-download-husky-dog-silhouette-at-getdrawings-french_a3paqy.png',
-            breed: null,
+            breed: '',
             gender: true,
             description: '',
             productId: '',
             userId: '',
         });
+        const isBreedFromList = ref(true);
+        const orderFormBreedText = ref('');
 
         const getAvailableProducts = async () => {
             const res = await productService.getAllProducts();
@@ -197,11 +217,13 @@ export default {
             console.log(orderFormRaw);
             orderFormRaw.userId = loggedUser.value._id;
             orderFormRaw.gender = orderForm.gender ? 'Male' : 'Female';
-            orderFormRaw.breed = orderForm.breed?.name;
+            orderFormRaw.breed = orderFormRaw.breed
+                ? orderFormRaw.breed
+                : orderFormBreedText.value;
             if (Object.values(orderFormRaw).some(field => !field)) {
                 return notificationStore.newNotification(
                     'error',
-                    'missing fields!'
+                    'Please fill all the fields'
                 );
             }
             if (
@@ -221,6 +243,15 @@ export default {
             }
             notificationStore.newNotification('success', 'Order Placed!');
             return router.push('/profile');
+        };
+
+        const onSwitchBreedInput = fieldName => {
+            isBreedFromList.value = fieldName !== 'text';
+            if (fieldName === 'text') {
+                orderForm.breed = '';
+            } else {
+                orderFormBreedText.value = '';
+            }
         };
 
         const getSelectedProductImage = () => {
@@ -244,19 +275,18 @@ export default {
 
         const genderOptions = ref(['Male', 'Female']);
         const dogBreeds = ref([
-            { name: 'Husky' },
-            { name: 'German Shepard' },
-            { name: 'Labrador Retriever' },
-            { name: 'Golden Retriever' },
-            { name: 'Bulldog' },
-            { name: 'Poodle' },
-            { name: 'Beagle' },
-            { name: 'Yorkshire Terrier' },
-            { name: 'Boxer' },
-            { name: 'Rottweiler' },
+            'Husky',
+            'German Shepard',
+            'Labrador Retriever',
+            'Golden Retriever',
+            'Bulldog',
+            'Poodle',
+            'Beagle',
+            'Yorkshire Terrier',
+            'Boxer',
+            'Rottweiler',
         ]);
-        window.products = products;
-        window.orderForm = orderForm;
+
         return {
             orderForm,
             products,
@@ -266,6 +296,9 @@ export default {
             onUploadImg,
             onPlaceOrder,
             getSelectedProductImage,
+            onSwitchBreedInput,
+            isBreedFromList,
+            orderFormBreedText,
         };
     },
 };

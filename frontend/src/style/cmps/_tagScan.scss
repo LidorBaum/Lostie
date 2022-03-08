@@ -1,13 +1,42 @@
-.dog-scan-page {
+.tag-scan-page {
     display: flex;
-    text-align: center;
     justify-content: center;
-    width: 50%;
-    padding: 30px;
-    border-radius: 20px;
-    background-color: $clr1;
-
-    .dog-image {
+    .tag-info-container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        width: 40%;
+        padding: 30px;
+        border-radius: 20px;
+        background-color: $clr1;
+        gap: 20px;
+    }
+    .tag-image {
         border-radius: 10px;
+        width: 40%;
+    }
+    .contact-owner {
+        .icons-btns {
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            h3 {
+                margin-bottom: 10px;
+            }
+            i {
+                font-size: 3rem;
+            }
+            .mail {
+            }
+            .whatsapp {
+                color: greenyellow;
+            }
+            .phone {
+                color: cornflowerblue;
+            }
+        }
     }
 }

@@ -46,34 +46,55 @@
                         v-if="tagFormIsEditingMap.breed"
                     >
                         <div class="data">
-                            <Dropdown
-                                v-model="tagForm.breed"
-                                :options="dogBreeds"
-                                optionLabel="name"
-                                :filter="true"
-                                placeholder="Select Breed"
-                                :showClear="true"
-                                class="inputField"
-                                v-on:keyup.enter="() => onSaveChange('breed')"
-                                v-on:keyup.esc="() => onCancelChange('breed')"
-                            >
-                                <template #value="slotProps">
-                                    <div
-                                        class="breed-item breed-item-value"
-                                        v-if="slotProps.value"
-                                    >
-                                        <div>{{ slotProps.value.name }}</div>
-                                    </div>
-                                    <span v-else>
-                                        {{ slotProps.placeholder }}
-                                    </span>
-                                </template>
-                                <template #option="slotProps">
-                                    <div class="breed-item">
-                                        <div>{{ slotProps.option.name }}</div>
-                                    </div>
-                                </template>
-                            </Dropdown>
+                            <span @click="() => onSwitchBreedInput('drop')">
+                                <Dropdown
+                                    v-model="tagForm.breed"
+                                    :options="dogBreeds"
+                                    placeholder="Select Breed"
+                                    :showClear="true"
+                                    class="dropdown"
+                                    v-on:keyup.enter="
+                                        () => onSaveChange('breed')
+                                    "
+                                    v-on:keyup.esc="
+                                        () => onCancelChange('breed')
+                                    "
+                                    :disabled="!isBreedFromList"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            class="breed-item breed-item-value"
+                                            v-if="slotProps.value"
+                                        >
+                                            <div>{{ slotProps.value }}</div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="breed-item">
+                                            <div>{{ slotProps.option }}</div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
+                            </span>
+                            <div class="other-input">
+                                <span> Other: </span>
+                                <span @click="() => onSwitchBreedInput('text')">
+                                    <InputText
+                                        class="ots"
+                                        :disabled="isBreedFromList"
+                                        v-model="tagFormBreedText"
+                                        v-on:keyup.enter="
+                                            () => onSaveChange('breed')
+                                        "
+                                        v-on:keyup.esc="
+                                            () => onCancelChange('breed')
+                                        "
+                                    />
+                                </span>
+                            </div>
                         </div>
                         <div class="btns">
                             <SaveCancelBtns
@@ -164,11 +185,49 @@
                         </div>
                     </div>
                 </Transition>
+                <Transition name="switch" mode="out-in">
+                    <div
+                        class="edit-info-container"
+                        v-if="tagFormIsEditingMap.status"
+                    >
+                        <div class="data">
+                            <Dropdown
+                                v-model="tagForm.status"
+                                :options="availableStatusOptions"
+                                :placeholder="`${tagForm.status}`"
+                                class="inputField"
+                                v-on:keyup.enter="() => onSaveChange('status')"
+                                v-on:keyup.esc="() => onCancelChange('status')"
+                                :class="isGlowField ? 'glow' : 'unglow'"
+                            />
+                        </div>
+                        <div class="btns">
+                            <SaveCancelBtns
+                                fieldName="status"
+                                @onSave="onSaveChange"
+                                @onCancel="onCancelChange"
+                            />
+                        </div>
+                    </div>
+                    <div v-else class="show-info-container">
+                        <div class="data">
+                            <h2>
+                                Status:
+                                {{ tagObj.status }}
+                            </h2>
+                        </div>
+                        <div class="btns">
+                            <EditFieldBtn
+                                fieldName="status"
+                                @onEditField="onEditField"
+                            />
+                        </div>
+                    </div>
+                </Transition>
             </div>
             <div class="tag-scan-preview">
                 <TagScan :tagObj="tagObj" />
             </div>
-            <div class="tag-infoo"></div>
         </div>
 
         <div v-else class="loader-div">
@@ -204,14 +263,25 @@ export default {
         const userStore = useUserStore();
         const { loggedUser } = storeToRefs(userStore);
         const notificationStore = useNotificationStore();
-
+        const availableStatusOptions = ref([]);
         const tagForm = reactive({
             petName: '',
             image: 'https://res.cloudinary.com/echoshare/image/upload/v1646337100/Lostie/59-590299_transparent-download-husky-dog-silhouette-at-getdrawings-french_a3paqy.png',
-            breed: null,
+            breed: '',
             gender: true,
             description: '',
+            status: '',
         });
+        const statusOptions = {
+            Pending: ['Active'],
+            Active: ['Lost', 'Inactive'],
+            Lost: ['Active', 'Inactive'],
+            Inactive: ['Active'],
+        };
+        const isGlowField = ref(false);
+        const tagFormBreedText = ref('');
+
+        const isBreedFromList = ref(true);
 
         //I need to know which fields are currently being edited.
         const getEmptyEditingMap = () => {
@@ -226,12 +296,7 @@ export default {
 
         let tagObj = ref(null);
 
-        //Prime's dropdown must get an object with name property for his options,
-        //so I need to make sure when edit is pressed it will recieve object in the TagForm.
-        //after the saving, I am applying back a string instead of object to the tagForm
         const onEditField = fieldName => {
-            if (typeof tagForm.breed !== 'object')
-                tagForm.breed = { name: `${tagForm.breed}` };
             tagFormIsEditingMap[fieldName] = true;
         };
 
@@ -239,8 +304,18 @@ export default {
             const updatedTagObj = {};
             Object.assign(updatedTagObj, tagObj.value); //Get the initial TAG data (for the unchanged fields)
             Object.assign(updatedTagObj, { ...tagForm }); //get the changed data from the FORM
-            Object.assign(updatedTagObj, { breed: tagForm.breed.name }); //Return from Primes' dropdown object to string - > {name: "XXX"} ->> "XXX"
             updatedTagObj.gender = updatedTagObj.gender ? 'Male' : 'Female'; //Return  from Primes' toggle boolean to string
+            updatedTagObj.breed = tagForm.breed
+                ? tagForm.breed
+                : tagFormBreedText.value;
+            if (Object.values({ ...updatedTagObj }).some(field => !field)) {
+                return notificationStore.newNotification(
+                    'error',
+                    `Please fill up the ${
+                        fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+                    }`
+                );
+            }
             const updatedTag = await tagService.updateTag(updatedTagObj);
             if (updatedTag.error) {
                 return notificationStore.newNotification(
@@ -249,8 +324,13 @@ export default {
                 );
             }
             notificationStore.newNotification('success', 'Saved');
-            Object.assign(tagObj.value, updatedTag);
+            // Object.assign(tagObj.value, updatedTag);
             tagObj.value = { ...tagObj.value, ...updatedTag };
+            availableStatusOptions.value = statusOptions[tagObj.value?.status];
+            if (fieldName === 'status')
+                availableStatusOptions.value =
+                    statusOptions[tagObj.value?.status];
+
             tagFormIsEditingMap[fieldName] = false;
         };
 
@@ -261,9 +341,40 @@ export default {
             tagForm[fieldName] = tagObj.value[fieldName];
         };
 
+        const onSwitchBreedInput = fieldName => {
+            isBreedFromList.value = fieldName !== 'text';
+            if (fieldName === 'text') {
+                tagForm.breed = '';
+            } else {
+                tagFormBreedText.value = '';
+            }
+        };
+
         const fetchTagObj = async tagId => {
             if (!loggedUser.value) return;
             const tag = await tagService.getTagByIdForScan(tagId);
+            if (tag.error) {
+                return notificationStore.newNotification(
+                    'error',
+                    tag.error.message
+                );
+            }
+            if (tag.status === 'Pending') {
+                notificationStore.newNotification(
+                    'info',
+                    "Recieved your new tag? Don't forget to activate it here!",
+                    10000
+                );
+                onEditField('status');
+                isGlowField.value = true;
+                const interval = setInterval(() => {
+                    isGlowField.value = !isGlowField.value;
+                }, 1000);
+                setTimeout(() => {
+                    isGlowField.value = false;
+                    clearInterval(interval);
+                }, 7000);
+            }
             //NOTIFICATION ON ERROR !
             tagObj.value = tag;
         };
@@ -272,13 +383,15 @@ export default {
             if (!loggedUser.value) return;
             Object.assign(tagForm, tagObj.value);
             tagForm.gender = tagForm.gender === 'Male';
-            //   console.log(userInfoForm, "userInfoForm");
+            availableStatusOptions.value = statusOptions[tagObj.value?.status];
         };
 
         userStore.$subscribe((mutation, state) => {
-            const tagId = route.params.id;
-            fetchTagObj(tagId);
-            prepareEditInfoForm();
+            // console.log(tagObj.value);
+            // if(tagObj.value?._id === route.params.id) console.log('same same new name');
+            // const tagId = route.params.id;
+            // fetchTagObj(tagId);
+            // prepareEditInfoForm();
         });
 
         onMounted(() => {
@@ -288,17 +401,18 @@ export default {
                 prepareEditInfoForm();
             }, 1);
         });
+
         const dogBreeds = ref([
-            { name: 'Husky' },
-            { name: 'German Shepard' },
-            { name: 'Labrador Retriever' },
-            { name: 'Golden Retriever' },
-            { name: 'Bulldog' },
-            { name: 'Poodle' },
-            { name: 'Beagle' },
-            { name: 'Yorkshire Terrier' },
-            { name: 'Boxer' },
-            { name: 'Rottweiler' },
+            'Husky',
+            'German Shepard',
+            'Labrador Retriever',
+            'Golden Retriever',
+            'Bulldog',
+            'Poodle',
+            'Beagle',
+            'Yorkshire Terrier',
+            'Boxer',
+            'Rottweiler',
         ]);
 
         return {
@@ -308,7 +422,12 @@ export default {
             onCancelChange,
             onEditField,
             onSaveChange,
+            availableStatusOptions,
             dogBreeds,
+            isBreedFromList,
+            onSwitchBreedInput,
+            tagFormBreedText,
+            isGlowField,
         };
     },
 };

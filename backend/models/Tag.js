@@ -56,6 +56,7 @@ TagSchema.statics.updateTag = async function (tagObj) {
         image: tagObj.image,
         gender: tagObj.gender,
         description: tagObj.description,
+        status: tagObj.status,
       },
     },
     { new: true }
