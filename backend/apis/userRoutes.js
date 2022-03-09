@@ -1,6 +1,7 @@
 const express = require("express");
 const Libs = require("../libs");
 const { UserModel } = require("../models/User");
+const { TagModel } = require("../models/Tag");
 const { baseURL, env } = require("../config");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -76,20 +77,24 @@ async function getUserById(req, res) {
     const user = await UserModel.getById(userId);
     res.send(user);
   } catch (error) {
-    return response.status(status).send(errMessage);
+    return responseError(res, err.message);
   }
 }
 
 async function getAllGeocodes(req, res) {
   try {
     const users = await UserModel.getAllUsers();
+    const tags = await TagModel.getAllTags();
+    let userTagCount = [];
+
     let geos = [];
-    users.forEach((element) => {
-      geos.push({ position: element.geocode });
+    console.log(users);
+    users.forEach((element, idx) => {
+      geos.push({ id: idx, position: element.geocode });
     });
     res.send(geos);
   } catch (error) {
-    return response.status(status).send(errMessage);
+    return responseError(res, err.message);
   }
 }
 
@@ -116,7 +121,6 @@ async function createFakeUser(req, res) {
     const newUser = await UserModel.createUser(userObj);
     res.send(newUser);
   } catch (err) {
-    err;
     return responseError(res, err.message);
   }
 }

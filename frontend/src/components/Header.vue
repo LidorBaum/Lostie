@@ -28,7 +28,7 @@
             :modal="true"
             :dismissableMask="true"
             @hide="closeLogin"
-            :style="{ width: '50vw' }"
+            :style="{ width: dialogWidth }"
         >
             <div class="login-popup">
                 <form
@@ -152,6 +152,10 @@ import userService from '../services/userService';
 
 export default {
     setup() {
+        const dialogWidth = ref('50vw');
+        if (window.screen.width < 1000) {
+            dialogWidth.value = '90vw';
+        }
         const router = useRouter();
         let showLogin = ref(false);
         let showSignup = ref(false);
@@ -301,6 +305,7 @@ export default {
             swapForms,
             trySignup,
             signupCreds,
+            dialogWidth,
         };
     },
 };

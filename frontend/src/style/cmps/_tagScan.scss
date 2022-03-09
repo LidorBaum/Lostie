@@ -40,3 +40,18 @@
         }
     }
 }
+
+@media only screen and (max-width: 750px) {
+    .tag-scan-page {
+        .tag-info-container {
+            width: auto;
+            padding: 16px;
+            p {
+                font-size: 1.4rem;
+            }
+        }
+        .tag-image {
+            width: 80%;
+        }
+    }
+}

@@ -21,7 +21,7 @@
                     <Paginator
                         v-if="userTags.length"
                         v-model:first="first"
-                        :rows="2"
+                        :rows="paginatorRows"
                         :totalRecords="userTags.length"
                         template=" PageLinks  "
                         @page="onPaging"
@@ -78,7 +78,7 @@
             :draggable="false"
             :modal="true"
             @hide="closeEditInfo"
-            :style="{ width: '50vw' }"
+            :style="{ width: dialogWidth }"
         >
             <div class="edit-info-popup">
                 <form
@@ -152,6 +152,12 @@ import userService from '../services/userService';
 
 export default {
     setup() {
+        const paginatorRows = ref(2);
+        const dialogWidth = ref('50vw');
+        if (window.screen.width < 1000) {
+            paginatorRows.value = 1;
+            dialogWidth.value = '90vw';
+        }
         const userStore = useUserStore();
         const showEditInfo = ref(false);
         const { loggedUser } = storeToRefs(userStore);
@@ -170,12 +176,12 @@ export default {
             computed(() => {
                 if (!userTags.value.length) return [];
                 console.log(currTagsPage.value, 'current page');
-                console.log((currTagsPage.value - 1) * 2);
+                console.log((currTagsPage.value - 1) * paginatorRows.value);
                 return userTags.value.slice(
-                    (currTagsPage.value - 1) * 2,
-                    2 + (currTagsPage.value - 1) * 2
+                    (currTagsPage.value - 1) * paginatorRows.value,
+                    paginatorRows.value +
+                        (currTagsPage.value - 1) * paginatorRows.value
                 );
-                return userTags.value;
             })
         );
 
@@ -281,6 +287,8 @@ export default {
             isLoading,
             userTagsForDisplay,
             onPaging,
+            paginatorRows,
+            dialogWidth,
         };
     },
 };

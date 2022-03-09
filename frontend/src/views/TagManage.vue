@@ -45,7 +45,7 @@
                         class="edit-info-container"
                         v-if="tagFormIsEditingMap.breed"
                     >
-                        <div class="data">
+                        <div class="data dropdown-other">
                             <span @click="() => onSwitchBreedInput('drop')">
                                 <Dropdown
                                     v-model="tagForm.breed"
@@ -224,6 +224,51 @@
                         </div>
                     </div>
                 </Transition>
+                <div
+                    class="edit-info-container image-field"
+                    v-if="tagFormIsEditingMap.image"
+                >
+                    <div class="data">
+                        <label
+                            htmlFor="img-input"
+                            v-tooltip.top="'click to replace photo'"
+                        >
+                            <img
+                                alt="profile img"
+                                className="primary-img clickable"
+                                :src="newPhotoURL ? newPhotoURL : tagObj.image"
+                            />
+                            <input
+                                id="img-input"
+                                hidden
+                                type="file"
+                                @change="onUploadImg"
+                            />
+                        </label>
+                    </div>
+                    <div class="btns">
+                        <SaveCancelBtns
+                            fieldName="image"
+                            @onSave="onSaveChange"
+                            @onCancel="onCancelChange"
+                        />
+                    </div>
+                </div>
+                <div v-else class="show-info-container image-field">
+                    <div class="data">
+                        <img
+                            alt="profile img"
+                            className="primary-img"
+                            :src="newPhotoURL ? newPhotoURL : tagObj.image"
+                        />
+                    </div>
+                    <div class="btns">
+                        <EditFieldBtn
+                            fieldName="image"
+                            @onEditField="onEditField"
+                        />
+                    </div>
+                </div>
             </div>
             <div class="tag-scan-preview">
                 <TagScan :tagObj="tagObj" />
@@ -251,6 +296,7 @@ import SaveCancelBtns from '../components/SaveCancelBtns.vue';
 import EditFieldBtn from '../components/EditFieldBtn.vue';
 import TagScan from './TagScan.vue';
 import { useNotificationStore } from '../store/useNotification';
+import { uploadImg } from '../services/cloudinaryService';
 
 export default {
     components: {
@@ -278,6 +324,9 @@ export default {
             Lost: ['Active', 'Inactive'],
             Inactive: ['Active'],
         };
+        //need this var to maintain both old and new photos in the same time
+        const newPhotoURL = ref('');
+
         const isGlowField = ref(false);
         const tagFormBreedText = ref('');
 
@@ -302,6 +351,7 @@ export default {
 
         const onSaveChange = async fieldName => {
             const updatedTagObj = {};
+            if (fieldName === 'image') tagForm.image = newPhotoURL.value;
             Object.assign(updatedTagObj, tagObj.value); //Get the initial TAG data (for the unchanged fields)
             Object.assign(updatedTagObj, { ...tagForm }); //get the changed data from the FORM
             updatedTagObj.gender = updatedTagObj.gender ? 'Male' : 'Female'; //Return  from Primes' toggle boolean to string
@@ -338,6 +388,7 @@ export default {
             tagFormIsEditingMap[fieldName] = false;
             if (fieldName === 'gender')
                 return (tagForm.gender = tagObj.value.gender === 'Male');
+            if (fieldName === 'image') return (newPhotoURL.value = '');
             tagForm[fieldName] = tagObj.value[fieldName];
         };
 
@@ -379,6 +430,17 @@ export default {
             tagObj.value = tag;
         };
 
+        const onUploadImg = async e => {
+            const url = await uploadImg(e);
+            if (!url) {
+                return notificationStore.newNotification(
+                    'error',
+                    'Oops, could not upload the image. please try again.'
+                );
+            }
+            newPhotoURL.value = url;
+        };
+
         const prepareEditInfoForm = () => {
             if (!loggedUser.value) return;
             Object.assign(tagForm, tagObj.value);
@@ -414,7 +476,7 @@ export default {
             'Boxer',
             'Rottweiler',
         ]);
-
+        console.log(tagFormIsEditingMap);
         return {
             tagObj,
             tagForm,
@@ -428,6 +490,8 @@ export default {
             onSwitchBreedInput,
             tagFormBreedText,
             isGlowField,
+            onUploadImg,
+            newPhotoURL,
         };
     },
 };

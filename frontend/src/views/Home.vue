@@ -19,14 +19,29 @@
                 <GMapMarker
                     :icon="{
                         url: 'https://res.cloudinary.com/echoshare/image/upload/v1646780698/Lostie/Paw_Print_pplbst.png',
-                        scaledSize: { width: 37, height: 37 },
+                        scaledSize: { width: 42, height: 42 },
                     }"
                     :key="index"
                     v-for="(m, index) in markers"
                     :position="m.position"
+                    :clickable="true"
+                    @click="openMarker(m.id)"
+                    @closeclick="openMarker(null)"
                 >
-                    <GMapInfoWindow :opened="false">
-                        <div><h1>IW</h1></div>
+                    <GMapInfoWindow
+                        :closeclick="true"
+                        @closeclick="openMarker(null)"
+                        :opened="openedMarkerID === m.id"
+                        :options="{
+                            pixelOffset: {
+                                width: 10,
+                                height: 0,
+                            },
+                            maxWidth: 320,
+                            maxHeight: 320,
+                        }"
+                    >
+                        <h1 class="iw">{{ m.position }}</h1>
                     </GMapInfoWindow>
                 </GMapMarker>
             </GMapMap>
@@ -34,87 +49,21 @@
     </div>
 </template>
 
-
-
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
 import { GMapMap, GMapMarker, GMapInfoWindow } from '@fawmi/vue-google-maps';
 import { ref, onMounted } from 'vue';
 import { mapStyleGreen, mapStyleDark } from '../services/utils';
+import userService from '../services/userService';
 
 export default {
     setup() {
         const mapCenter = ref({ lat: 51.093048, lng: 6.84212 });
         const options = ref(mapStyleGreen);
-        const markers = ref([
-            {
-                position: {
-                    lat: 31.9730015,
-                    lng: 34.7925013,
-                },
-            },
-            {
-                position: {
-                    lat: 32.013186,
-                    lng: 34.748019,
-                },
-            },
-            {
-                position: {
-                    lat: 32.8304939,
-                    lng: 35.0675388,
-                },
-            },
-            {
-                position: {
-                    lat: 29.5544708,
-                    lng: 34.9403539,
-                },
-            },
-            {
-                position: {
-                    lat: 32.009506,
-                    lng: 34.773048,
-                },
-            },
-            {
-                position: {
-                    lat: 32.1235787,
-                    lng: 34.4342264,
-                },
-            },
-            {
-                position: {
-                    lat: 32.0702477,
-                    lng: 34.7765665,
-                },
-            },
-            {
-                position: {
-                    lat: 32.0215787,
-                    lng: 34.7732264,
-                },
-            },
-            {
-                position: {
-                    lat: 32.0187073,
-                    lng: 34.7394094,
-                },
-            },
-            {
-                position: {
-                    lat: 32.8328185,
-                    lng: 35.0693388,
-                },
-            },
-            {
-                position: {
-                    lat: 32.0220357,
-                    lng: 34.7740891,
-                },
-            },
-        ]);
+        const openedMarkerID = ref(null);
+        const markers = ref([]);
+        window.markers = markers;
         const getUserLocation = () => {
             navigator.geolocation.getCurrentPosition(
                 position => {
@@ -132,18 +81,32 @@ export default {
                 }
             );
         };
+
+        const getMarkers = async () => {
+            const markersArr = await userService.getAllGeocodes();
+            markers.value = markersArr;
+        };
+
         const onUserLocationChange = async () => {
             getUserLocation();
         };
+
+        const openMarker = id => {
+            openedMarkerID.value = id;
+        };
+
         onMounted(() => {
             setTimeout(() => {
                 getUserLocation();
+                getMarkers();
             }, 10);
         });
         return {
             mapCenter,
             options,
             markers,
+            openMarker,
+            openedMarkerID,
         };
     },
     components: {

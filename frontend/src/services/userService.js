@@ -12,7 +12,12 @@ export default {
     checkUserExistAndType,
     addUser,
     getFilteredUsers,
+    getAllGeocodes,
 };
+
+function getAllGeocodes() {
+    return httpService.get('user/geocodes');
+}
 
 function getFilteredUsers(filter = null) {
     if (filter) return httpService.get(`user/sorted?filter=${filter}`);
