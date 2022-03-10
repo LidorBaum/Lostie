@@ -278,7 +278,7 @@
         <div v-else class="loader-div">
             <FingerprintSpinner
                 :animation-duration="1300"
-                :size="600"
+                :size="300"
                 color="#15b485"
             />
         </div>
@@ -461,7 +461,7 @@ export default {
                 const tagId = route.params.id;
                 await fetchTagObj(tagId);
                 prepareEditInfoForm();
-            }, 100);
+            }, 1);
         });
 
         const dogBreeds = ref([

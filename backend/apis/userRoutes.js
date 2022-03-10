@@ -84,17 +84,17 @@ async function getUserById(req, res) {
 async function getAllGeocodes(req, res) {
   try {
     const users = await UserModel.getAllUsers();
-    const tags = await TagModel.getAllTags();
-    let userTagCount = [];
+    const tags = await TagModel.getAllTags()
+    let userTagCount = []
 
     let geos = [];
-    console.log(users);
     users.forEach((element, idx) => {
       geos.push({ id: idx, position: element.geocode });
     });
     res.send(geos);
   } catch (error) {
     return responseError(res, err.message);
+    
   }
 }
 
@@ -115,7 +115,6 @@ async function createFakeUser(req, res) {
   try {
     const { fullName } = req.query;
     const userObj = await generateUser(fullName);
-    console.log(userObj);
     const hash = await bcrypt.hash(userObj.password, saltRounds);
     userObj.password = hash;
     const newUser = await UserModel.createUser(userObj);

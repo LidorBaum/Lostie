@@ -96,13 +96,13 @@
         }
     }
     .tag-scan-preview {
-        width: 240px;
-        height: 420px;
+        width: 50vw;
         font-size: 10px;
-        background-color: #fff;
         overflow: hidden;
-        .dog-scan-page {
-            width: 150px;
+        .tag-scan-page {
+            .tag-info-container{
+                width: 100%;
+            }
         }
     }
     .tag-infoo {
@@ -115,7 +115,6 @@
 @media only screen and (max-width: 750px) {
     .tag-manage {
         flex-direction: column;
-        width: 30vw;
         .tag-info {
             width: 80vw;
             .edit-info-container {
@@ -126,6 +125,12 @@
                     flex-direction: column;
                 }
             }
+        }
+        .tag-scan-preview{
+            margin-bottom: 20px !important;
+            width: 80vw;
+            margin: 0 auto;
+            height: auto;
         }
     }
 }

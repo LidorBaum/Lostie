@@ -34,7 +34,6 @@ const generateAddress = () => {
   address += (Math.floor(Math.random() * 10) + 1).toString();
   address += " ";
   address += cities[Math.floor(Math.random() * 5)];
-  console.log(address);
   return address;
 };
 const generatePhoneNumber = () => {
@@ -75,7 +74,6 @@ const getGeocode = async () => {
 };
 
 const generateUser = async (fullName) => {
-  console.log(fullName);
   address = generateAddress();
   return {
     name: fullName,

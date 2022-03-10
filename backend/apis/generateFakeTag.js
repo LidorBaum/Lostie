@@ -27,10 +27,8 @@ const users = [
 
 const statuses = ["Active", "Active", "Active", "Pending", "Lost", "Lost"];
 
-// console.log(loremIpsum()); // generates one sentence
 const generateTag = () => {
   let breedObj = dogBreeds.random();
-  console.log(breedObj);
   while (breedObj?.imageURL === "") breedObj = dogBreeds.random();
   return {
     petName: dogNames.allRandom(),
