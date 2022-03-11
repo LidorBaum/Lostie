@@ -13,7 +13,6 @@ This is the first project I am building with Vue 3 <br />
 In my opinion Vue 3 is a great framework, combining the pros of React and Angular. <br />
 The problem? It's small community makes it hard to find fixes and solutions online, <br />
 and it's lack of libraries makes it harder to use. <br />
-For now the app is Desktop only, no mobile support yet.
 
 Live hosting of this project is at https://lostie.herokuapp.com/ <br/>
 Please allow about 30 seconds for the server to boot
