@@ -403,6 +403,7 @@ export default {
 
         const fetchTagObj = async tagId => {
             if (!loggedUser.value) return;
+            console.log(`fetching ${tagId} from db`);
             const tag = await tagService.getTagByIdForScan(tagId);
             if (tag.error) {
                 return notificationStore.newNotification(
@@ -459,6 +460,7 @@ export default {
         onMounted(() => {
             setTimeout(async () => {
                 const tagId = route.params.id;
+                console.log(tagId, 'tagid onmounted');
                 await fetchTagObj(tagId);
                 prepareEditInfoForm();
             }, 1000);
@@ -476,7 +478,6 @@ export default {
             'Boxer',
             'Rottweiler',
         ]);
-        console.log(tagFormIsEditingMap);
         return {
             tagObj,
             tagForm,
