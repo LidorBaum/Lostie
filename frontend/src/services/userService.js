@@ -15,8 +15,8 @@ export default {
     getAllGeocodes,
 };
 
-function getAllGeocodes() {
-    return httpService.get('user/geocodes');
+function getAllGeocodes(lat, lng) {
+    return httpService.get(`user/geocodes?lat=${lat}&lng=${lng}`);
 }
 
 function getFilteredUsers(filter = null) {

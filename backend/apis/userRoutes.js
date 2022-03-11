@@ -8,6 +8,10 @@ const saltRounds = 10;
 const { generateUser } = require("./generateFakeUser");
 const userRouter = express.Router();
 
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
+
 userRouter.post("/", createUser);
 
 userRouter.get("/fake/", createFakeUser);
@@ -76,25 +80,33 @@ async function getUserById(req, res) {
     const { userId } = req.params;
     const user = await UserModel.getById(userId);
     res.send(user);
-  } catch (error) {
+  } catch (err) {
     return responseError(res, err.message);
   }
 }
 
 async function getAllGeocodes(req, res) {
   try {
+    const {lat, lng} = req.query
     const users = await UserModel.getAllUsers();
     const tags = await TagModel.getAllTags()
-    let userTagCount = []
-
-    let geos = [];
+    //ADD TAGS COUNT PER USER ALGORITHM
+    let usersGeos = [];
     users.forEach((element, idx) => {
-      geos.push({ id: idx, position: element.geocode });
+      if(idx%2 ===0) usersGeos.push({ id: idx, position: {lat: element.geocode.lat, lng: element.geocode.lng+0.0001}});
+      usersGeos.push({ id: idx, position: element.geocode });
     });
-    res.send(geos);
-  } catch (error) {
+    const nearVetsRes = await fetch(`https://maps.googleapis.com/maps/api/place/search/json?location=${lat},${lng}&radius=2000&types=veterinary_care&sensor=false&key=AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA`,{method: "GET"})
+    const nearVetsObj = await nearVetsRes.json()
+    let nearVetsGeos = []
+    nearVetsObj.results.forEach((vet, idx) => {
+      nearVetsGeos.push({id: (idx*100)+100, position: vet.geometry.location, name: vet.name })
+  });  
+    console.log(nearVetsGeos);
+    res.send({usersGeos, nearVetsGeos});
+  } catch (err) {
     return responseError(res, err.message);
-    
+
   }
 }
 

@@ -19,7 +19,14 @@
         // margin-left: 100px
         // margin-inline-end: 65px;
         // transition: margin-inline-end 0.2s ease-in-out;
+    }.p-menubar.p-menubar-mobile-active .p-menubar-root-list{
+
+        left: -200%
     }
+    .p-menubar .p-menubar-root-list{
+        width: auto;
+    }
+
     .logo {
         width: 80px;
         filter: invert(100%);
