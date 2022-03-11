@@ -69,3 +69,27 @@
 .gm-style .gm-style-iw-d {
     padding: 10;
 }
+
+@media only screen and (max-width: 750px) {
+    .home-page{
+        overflow: hidden;
+        .hero{
+            flex-direction: column;
+            margin-top: 0;
+            gap: 10px;
+            p{
+                text-align: center;
+                font-size: 4rem;
+                strong{
+                    display: block;
+                }
+            }
+        }
+        .gmap-about-container{
+            flex-direction: column;
+            .about{
+                width: 100%
+            }
+        }
+    }
+}
