@@ -461,7 +461,7 @@ export default {
                 const tagId = route.params.id;
                 await fetchTagObj(tagId);
                 prepareEditInfoForm();
-            }, 1);
+            }, 1000);
         });
 
         const dogBreeds = ref([
