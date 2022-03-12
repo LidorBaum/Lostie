@@ -95,8 +95,9 @@ export default {
         onMounted(() => {
             setTimeout(() => {
                 const tagId = route.params.id;
-                const scan = route.query.scan;
-                if (scan == 1) beautifyHeader();
+                // const scan = route.query.scan;
+                // if (scan == 1) beautifyHeader();
+                beautifyHeader();
                 fetchTagObj(tagId);
             }, 100);
         });

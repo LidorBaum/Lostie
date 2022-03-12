@@ -4,7 +4,7 @@ const { TagModel } = require("../models/Tag");
 const { baseURL, env } = require("../config");
 const { UserModel } = require("../models/User");
 const { ProductModel } = require("../models/Product");
-const { generateTag } = require("./generateFakeTag");
+const { generateTags } = require("./generateFakeTag");
 
 const tagRouter = express.Router();
 
@@ -112,9 +112,14 @@ async function deleteTag(req, res) {
 
 async function createFakeTag(req, res) {
   try {
-    const tagObj = await generateTag();
-    const newTag = await TagModel.createTag(tagObj);
-    res.send(newTag);
+    const generatedTagsArray = await generateTags(1);
+    let result = []
+    generatedTagsArray.forEach(async tag =>{
+     const newTag = await TagModel.createTag(tag)
+    const resu = await UserModel.addTag(newTag.userId, newTag._id)
+    result.push(newTag)
+    })
+    res.send(result);
   } catch (err) {
     return responseError(res, err.message);
   }

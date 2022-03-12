@@ -67,6 +67,10 @@ TagSchema.statics.getTagsCount = function () {
   return this.countDocuments({});
 };
 
+TagSchema.statics.createManyTags = function (tagsArray){
+  return this.insertMany(tagsArray)
+}
+
 TagSchema.statics.createTag = function (tagObj) {
   return this.create(tagObj);
 };

@@ -36,7 +36,7 @@
                             <a
                                 v-for="tag in userTagsForDisplay"
                                 :key="tag._id"
-                                :href="`tag/manage/${tag._id}`"
+                                :href="`tag/manage/${tag._id}?auth=${tag.userId}`"
                             >
                                 <article
                                     class="tag-card"

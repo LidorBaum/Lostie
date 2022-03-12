@@ -1,5 +1,4 @@
 const environment = process.env.VUE_APP_ENVIRONMENT || 'dev';
-console.log(environment);
 function tryRequire(environment) {
     try {
         return require(`./${environment}`);

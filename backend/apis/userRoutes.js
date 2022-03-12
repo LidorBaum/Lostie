@@ -115,6 +115,7 @@ async function getAllGeocodes(req, res) {
       nearVetsGeos.push({
         id: idx * 100 + 100,
         position: vet.geometry.location,
+        address: vet.vicinity,
         name: vet.name,
       });
     });

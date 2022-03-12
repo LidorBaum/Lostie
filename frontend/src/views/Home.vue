@@ -15,14 +15,11 @@
                 <p>
                     Lostie is your way to ensure that if your pet is lost,
                     everyone with a smartphone will be able to know how to
-                    contact you when he's found. Join now to
-                    {{ counters?.users }} peoples and {{ counters?.tags }}
-                    pets that are already using Lostie tags. Lostie is your way
-                    to ensure that if your pet is lost, everyone with a
-                    smartphone will be able to know how to contact you when he's
-                    found. Join now to
-                    {{ counters?.users }} peoples and {{ counters?.tags }}
-                    pets that are already using Lostie tags.
+                    contact you when he's found.<br /> Join now to
+                    <span>{{ counters?.users }} peoples </span> and <span>{{ counters?.tags }}
+                    pets </span> that are already using Lostie tags. <br />
+                    In the map you can see the users and their tags count. If you allowed location services, 
+                    you will see nearby Vet-Cares (red markers)
                 </p>
             </div>
             <div class="gmap">
@@ -48,7 +45,7 @@
                                     : ''
                             "
                             :key="index"
-                            :label="m.tagCount"
+                            :label="m.tagCount !== '0' && m.tagCount!== '1' ? m.tagCount: ''"
                             v-for="(m, index) in markers"
                             :position="m.position"
                             :clickable="true"
@@ -59,6 +56,7 @@
                                 :closeclick="true"
                                 @closeclick="openMarker(null)"
                                 :opened="openedMarkerID === m.id"
+                                v-if="m.id > 99"
                                 :options="{
                                     pixelOffset: {
                                         width: 0,
@@ -68,7 +66,7 @@
                                     maxHeight: 320,
                                 }"
                             >
-                                <h1 class="iw">{{ m.position }}{{ m.id }}</h1>
+                                <h1 class="iw">{{ m.address }}</h1>
                                 <h1 class="iw">{{ m.name }}</h1>
                             </GMapInfoWindow>
                         </GMapMarker>
@@ -234,17 +232,12 @@ export default {
 </script>
 <style>
 .logo-enter-from {
-    /* transform: rotate(-360deg); */
-    /* transform: rotateY(90deg); */
     transform: translateY(-1000px);
 }
 .logo-leave-to {
     opacity: 0;
     overflow: hidden;
     transform: translateY(-1000px);
-
-    /* transform: rotateY(90deg); */
-    /* transform: rotate(360deg); */
 }
 .logo-enter-active {
     transition: all 0.8s cubic-bezier(0.56, 0.04, 0.14, 0.89);
@@ -253,14 +246,9 @@ export default {
     transition: all 0.8s cubic-bezier(0.56, 0.04, 0.14, 0.89);
 }
 
-
 .logoMobile-enter-from {
-    /* transform: rotate(-360deg); */
-    /* transform: rotateY(90deg); */
     transform: rotate(360deg);
     opacity: 1;
-
-
 }
 .logoMobile-leave-to {
     opacity: 0;

@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <p>App developed by EchoShop3D</p>
+        <p>App developed by Lidor Baum</p>
         <div className="footer-icons">
             <a target="_blank" href="https://www.github.com/lidorbaum/">
                 <img

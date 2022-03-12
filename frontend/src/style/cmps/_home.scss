@@ -55,8 +55,12 @@
             }
             p {
                 text-align: center;
-                font-size: 1.4rem;
+                font-size: 1.5rem;
                 line-height: 40px;
+                span{
+                    color: $clr4;
+                    font-weight: 600;
+                }
             }
         }
         .gmap {
