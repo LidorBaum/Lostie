@@ -33,6 +33,8 @@ app.use(PrimeVue);
 app.use(createPinia());
 app.use(ToastService);
 const GoogleAPIKey = process.env.GOOGLE_API_KEY || ''
+console.log(GoogleAPIKey, 'google api key');
+console.log(process.env);
 app.use(VueGoogleMaps, {
     load: {
         key: GoogleAPIKey,
