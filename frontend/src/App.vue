@@ -8,7 +8,7 @@
         </div>
         <Footer />
     </div>
-    <ScrollTop />
+    <ScrollTop threshold="100" behavior='smooth'/>
 </template>
 
 <script>
