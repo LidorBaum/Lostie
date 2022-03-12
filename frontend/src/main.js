@@ -28,27 +28,17 @@ import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
 import 'primevue/resources/primevue.min.css'; //core css
 import 'primeicons/primeicons.css'; //icons
 
-// import {
-//     create,
-//     NButton,
-//     NInput,
-
-// } from 'naive-ui'
-
-// const naive = create({
-//     components: [NButton, NInput]
-//   })
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(createPinia());
 app.use(ToastService);
+const GoogleAPIKey = process.env.GOOGLE_API_KEY || ''
 app.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA',
-        // language: 'de',
+        key: GoogleAPIKey,
     },
 });
-// app.use(naive)
+//AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA
 app.directive('tooltip', Tooltip);
 app.component('Paginator', Paginator);
 app.component('ProgressSpinner', ProgressSpinner);
