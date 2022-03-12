@@ -13,6 +13,15 @@ const UserSchema = Schema(
       uniqueCaseInsensitive: true,
       index: true,
     },
+    tagIds:{
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Tags'
+        }
+      ],
+      default: []
+    },
     name: {
       type: String,
       required: true,
@@ -58,6 +67,14 @@ const UserSchema = Schema(
 UserSchema.plugin(uniqueValidator, {
   message: "Error, expected {PATH} to be unique.",
 });
+
+UserSchema.statics.addTag = async function (userId, tagId){
+  return this.updateOne({_id: userId}, {
+    $addToSet: {
+      tagIds: tagId
+    }
+  })
+}
 
 // UserSchema.statics.getExistanceAndType = function (name) {
 //     return this.findOne({ name: { $regex: `^${name}$`, $options: 'i' } });

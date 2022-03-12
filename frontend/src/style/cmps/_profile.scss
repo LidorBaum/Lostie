@@ -25,7 +25,7 @@
                 aspect-ratio: 1/1;
             }
             .blue {
-                background-color: cornflowerblue;
+                background-color: greenyellow;
             }
             .red {
                 background-color: indianred;
@@ -74,7 +74,7 @@
             }
             .tag-card {
                 background-color: $clr1;
-                color: cornflowerblue;
+                color: greenyellow;
                 padding: 10px 10px;
                 border-radius: 10px;
                 box-shadow: 0px 0px 20px 5px;
@@ -110,6 +110,7 @@
             .inactive {
                 color: #9a57f1;
             }
+            
         }
         .empty {
             display: block;

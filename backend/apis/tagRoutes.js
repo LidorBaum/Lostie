@@ -122,12 +122,16 @@ async function createFakeTag(req, res) {
 
 async function createTag(req, res) {
   try {
+    console.log('creating new tag be');
     const newTag = await TagModel.createTag(req.body);
+    const resu = await UserModel.addTag(newTag.userId, newTag._id)
+    console.log(resu);
     res.send(newTag);
   } catch (err) {
     return responseError(res, err.message);
   }
 }
+
 async function updateTag(req, res) {
   try {
     const newtagObj = await TagModel.updateTag(req.body);

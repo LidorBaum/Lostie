@@ -3,6 +3,7 @@ const Libs = require("../libs");
 const { OrderModel } = require("../models/Order");
 const { baseURL, env } = require("../config");
 const { TagModel } = require("../models/Tag");
+const { UserModel } = require("../models/User");
 
 const orderRouter = express.Router();
 
@@ -80,6 +81,7 @@ async function deleteorder(req, res) {
 async function createOrder(req, res) {
   try {
     const newTag = await TagModel.createTag(req.body);
+    await UserModel.addTag(newTag.userId, newTag._id)
     const newOrder = await OrderModel.createOrder({
       tagId: newTag._id,
       userId: newTag.userId,
