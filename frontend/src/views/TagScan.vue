@@ -85,6 +85,7 @@ export default {
         //when user travels to different page, it back
         const beautifyHeader = () => {
             if (loggedUser.value?.name) return;
+            console.log('no logg');
             userStore.setLoggedUser({ name: 'scannersecret' });
         };
         const unBeautifyHeader = () => {

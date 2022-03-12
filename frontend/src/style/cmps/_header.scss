@@ -44,6 +44,9 @@
     }
     a:only-child {
         margin: 0 auto;
+        img{
+            margin: 0
+        }
     }
 }
 .login-popup {
