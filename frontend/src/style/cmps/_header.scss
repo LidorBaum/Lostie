@@ -3,13 +3,13 @@
     top: -1px;
     z-index: 100000;
     background-color: #0f1724;
+    height: 80px;
 }
 .navbar {
     // background-color: rgb(182, 237, 255);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
     // border-bottom: 1px solid rgba(255, 255, 255, 0.692);
     box-shadow: 0 0px 10px #000000;
     margin-bottom: 30px;
@@ -41,6 +41,9 @@
         span {
             font-size: 1rem;
         }
+    }
+    a:only-child{
+        margin: 0 auto;
     }
 }
 .login-popup {

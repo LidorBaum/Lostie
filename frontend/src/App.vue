@@ -6,6 +6,7 @@
         <div class="content">
             <router-view />
         </div>
+        <Footer />
     </div>
     <ScrollTop />
 </template>
@@ -17,6 +18,7 @@ import { useNotificationStore } from './store/useNotification';
 import { useUserStore } from './store/useUser';
 import { storeToRefs } from 'pinia';
 import Header from './components/Header.vue';
+import Footer from './components/Footer.vue';
 import { useToast } from 'primevue/usetoast';
 import userService from './services/userService';
 
@@ -65,6 +67,7 @@ export default {
     },
     components: {
         Header,
+        Footer
     },
 };
 </script>

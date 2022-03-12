@@ -53,10 +53,12 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { ref, reactive, onMounted, computed, watch, onUnmounted } from 'vue';
 import tagService from '../services/tagService.js';
 import { useRouter, useRoute } from 'vue-router';
 import { FingerprintSpinner } from 'epic-spinners';
+import { useUserStore } from '../store/useUser';
+import { storeToRefs } from 'pinia';
 
 export default {
     components: {
@@ -69,20 +71,39 @@ export default {
         const route = useRoute();
         const router = useRouter();
         let tagObj = ref(null);
-
         let waPhoneNumber = ref(null);
-
+        const userStore = useUserStore();
+        const { loggedUser } = storeToRefs(userStore);
         const fetchTagObj = async tagId => {
             const tag = await tagService.getTagByIdForScan(tagId);
             waPhoneNumber.value = tag.phoneNumber.slice(1);
             tagObj.value = tag;
         };
 
+        //To mmake the header more minimalist when scanning a tag
+        //all buttons are removed excepty for the logo
+        //when user travels to different page, it back
+        const beautifyHeader = () => {
+            if(loggedUser.value?.name) return
+            userStore.setLoggedUser({ name: 'scannersecret' });
+        };
+        const unBeautifyHeader = () => {
+            if(loggedUser.value?.name !== 'scannersecret') return
+            userStore.setLoggedUser(null);
+        };
+
         onMounted(() => {
             setTimeout(() => {
                 const tagId = route.params.id;
+                const scan = route.query.scan;
+                console.log(scan == 1);
+                if (scan == 1) beautifyHeader();
                 fetchTagObj(tagId);
             }, 100);
+        });
+
+        onUnmounted(() => {
+            unBeautifyHeader()
         });
 
         // const dogGender = computed(() => {

@@ -19,6 +19,7 @@ import Tooltip from 'primevue/tooltip';
 import ScrollTop from 'primevue/scrolltop';
 import ToastService from 'primevue/toastservice';
 import Paginator from 'primevue/paginator';
+import Password from 'primevue/password';
 import VueGoogleMaps from '@fawmi/vue-google-maps';
 
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
@@ -56,6 +57,7 @@ app.component('Button', Button);
 app.component('Textarea', Textarea);
 app.component('Dialog', Dialog);
 app.component('RadioButton', RadioButton);
+app.component('Password', Password);
 app.component('ScrollTop', ScrollTop);
 app.component('SelectButton', SelectButton);
 app.component('ToggleButton', ToggleButton);

@@ -69,6 +69,9 @@
             gap: 30px;
             width: 400px;
             margin-top: 10px;
+            a:only-child{
+                margin: 0 auto;
+            }
             .tag-card {
                 background-color: $clr1;
                 color: cornflowerblue;

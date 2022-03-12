@@ -36,12 +36,13 @@
                             :icon="
                                 m.id < 99
                                     ? {
-                                          url: 'https://res.cloudinary.com/echoshare/image/upload/v1646780698/Lostie/Paw_Print_pplbst.png',
-                                          scaledSize: { width: 42, height: 42 },
+                                          url: 'https://res.cloudinary.com/echoshare/image/upload/v1647042668/Lostie/Paw_Print_jalprc.png',
+                                          scaledSize: { width: 70, height: 85 },
                                       }
                                     : ''
                             "
                             :key="index"
+                            label="V"
                             v-for="(m, index) in markers"
                             :position="m.position"
                             :clickable="true"

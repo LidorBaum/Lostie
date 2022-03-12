@@ -8,6 +8,7 @@
                     src="https://res.cloudinary.com/echoshare/image/upload/v1645629438/Lostie/image2vector_iolveb.svg"
                 />
             </router-link>
+            <Transition name="switch" mode="out-in">
             <Button
                 v-if="!loggedUser?.name"
                 label="Login / Signup"
@@ -15,11 +16,12 @@
                 @click="onLogin"
             />
             <Menubar
-                v-else
+                v-else-if="loggedUser.name !== 'scannersecret'"
                 :model="menuItems"
                 :class="isMenuOpen ? '' : 'menu'"
             >
             </Menubar>
+            </Transition>
         </div>
         <Dialog
             header="Login"
@@ -152,7 +154,7 @@ import userService from '../services/userService';
 
 export default {
     setup() {
-        const dialogWidth = ref('50vw');
+        const dialogWidth = ref('30vw');
         if (window.screen.width < 1000) {
             dialogWidth.value = '90vw';
         }
@@ -310,3 +312,29 @@ export default {
     },
 };
 </script>
+<style>
+.switch-enter-from,
+.switch-leave-to {
+    opacity: 0;
+    overflow: hidden;
+    /* transform: translateY(20px); */
+}
+.switch-enter-active {
+    transition: all 0.2s ease-out;
+}
+.switch-leave-active {
+    transition: all 0.2s ease-out;
+}
+.fade-in-enter-from,
+.fade-in-leave-to {
+    opacity: 0;
+    overflow: hidden;
+    /* transform: translateY(20px); */
+}
+.fade-in-enter-active {
+    transition: all 0.8s ease-out;
+}
+.fade-in-leave-active {
+    transition: all 0.8s ease-out;
+}
+</style>

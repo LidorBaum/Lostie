@@ -28,30 +28,39 @@
                         class="tags-paginator"
                     >
                     </Paginator>
-                    <div v-if="!userTags.length" class="tags-list empty">
-                        <h1>No Tags Yet</h1>
-                        <h2>Wanna order one now?</h2>
-                    </div>
-                    <div v-else class="tags-list">
-                        <a
-                            v-for="tag in userTagsForDisplay"
-                            :key="tag._id"
-                            :href="`tag/manage/${tag._id}`"
-                        >
-                            <article
-                                class="tag-card"
-                                v-tooltip.top="`${tag.status}`"
-                                :class="tag.status.toLowerCase()"
+                    <Transition name="switch" mode="out-in">
+                        <div v-if="userTags[0] === 0" class="tags-list empty">
+                            <h1>No Tags Yet</h1>
+                            <h2>Wanna order one now?</h2>
+                        </div>
+                        <div v-else-if="userTags.length" class="tags-list">
+                            <a
+                                v-for="tag in userTagsForDisplay"
+                                :key="tag._id"
+                                :href="`tag/manage/${tag._id}`"
                             >
-                                <h1>{{ tag.petName }}</h1>
-                                <img class="pet-image" :src="tag.image" />
-                                <img
-                                    class="tag-image"
-                                    :src="tag.productDetails.image"
-                                />
-                            </article>
-                        </a>
-                    </div>
+                                <article
+                                    class="tag-card"
+                                    v-tooltip.top="`${tag.status}`"
+                                    :class="tag.status.toLowerCase()"
+                                >
+                                    <h1>{{ tag.petName }}</h1>
+                                    <img class="pet-image" :src="tag.image" />
+                                    <img
+                                        class="tag-image"
+                                        :src="tag.productDetails.image"
+                                    />
+                                </article>
+                            </a>
+                        </div>
+                        <div v-else class="loader-div tags-loader-div">
+                            <FingerprintSpinner
+                                :animation-duration="1300"
+                                :size="100"
+                                color="#15b485"
+                            />
+                        </div>
+                    </Transition>
                 </div>
             </div>
             <div class="container">
@@ -149,11 +158,13 @@ import { useNotificationStore } from '../store/useNotification';
 import { storeToRefs } from 'pinia';
 import tagService from '../services/tagService';
 import userService from '../services/userService';
+import { FingerprintSpinner } from 'epic-spinners';
+
 
 export default {
     setup() {
         const paginatorRows = ref(2);
-        const dialogWidth = ref('50vw');
+        const dialogWidth = ref('30vw');
         if (window.screen.width < 1000) {
             paginatorRows.value = 1;
             dialogWidth.value = '90vw';
@@ -193,8 +204,9 @@ export default {
         const getUserTags = async () => {
             if (!loggedUser.value) return;
             const res = await tagService.getUserTags(loggedUser.value._id);
-            userTags.value = res;
-            return res;
+            console.log(res);
+            if (res.length === 0) return (userTags.value = [0]);
+            return (userTags.value = res);
         };
 
         const prepareEditInfoForm = () => {
@@ -251,7 +263,9 @@ export default {
         });
 
         onMounted(async () => {
-            await getUserTags();
+            setTimeout(() => {
+                getUserTags();
+            }, 1000);
             prepareEditInfoForm();
         });
 
@@ -291,5 +305,8 @@ export default {
             dialogWidth,
         };
     },
+    components:{
+FingerprintSpinner
+    }
 };
 </script>
