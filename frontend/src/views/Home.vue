@@ -15,7 +15,7 @@
                 <p>
                     Lostie is your way to ensure that if your pet is lost,
                     everyone with a smartphone will be able to know how to
-                    contact you when he's found. Join now to X peoples and Y
+                    contact you when he's found. Join now to {{counters?.users}} peoples and {{counters?.tags}}
                     pets that are already using Lostie tags.
                 </p>
             </div>
@@ -90,7 +90,7 @@ import {
     vetsDemo,
 } from '../services/utils';
 import userService from '../services/userService';
-import httpService from '../services/httpService';
+import tagService from '../services/tagService';
 
 export default {
     setup() {
@@ -106,6 +106,10 @@ export default {
                     textSize: '20',
             },
         ]);
+        const counters = ref({
+            users: null,
+            tags: null
+        })
         const markers = ref([]);
         window.markers = markers;
         const getUserLocation = () => {
@@ -142,7 +146,6 @@ export default {
             );
             const { usersGeos, nearVetsGeos } = markersArr;
             markers.value = [...usersGeos, ...nearVetsGeos];
-            console.log(markers.value);
         };
 
         const onUserLocationChange = async () => {
@@ -153,8 +156,16 @@ export default {
             openedMarkerID.value = id;
         };
 
+        const getCounters = async () =>{
+            const users = await userService.getUsersCount()
+            const tags = await tagService.getTagsCount()
+            return {users: users.count, tags: tags.count}
+        }
+
         onMounted(async () => {
             const userGeo = await getUserLocation();
+            counters.value = await getCounters()
+            console.log(counters.value);
         });
 
         return {
@@ -164,6 +175,7 @@ export default {
             openMarker,
             openedMarkerID,
             clusterIcon,
+            counters
         };
     },
     components: {

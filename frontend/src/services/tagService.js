@@ -8,6 +8,7 @@ export default {
     getAllTags,
     getUserTags,
     getTagByIdForScan,
+    getTagsCount
 };
 
 async function addTag(tagObj) {
@@ -15,6 +16,10 @@ async function addTag(tagObj) {
 }
 function updateTag(tagObj) {
     return httpService.put(`tag/edit/${tagObj._id}`, tagObj);
+}
+
+function getTagsCount(){
+    return httpService.get(`tag/total`);
 }
 
 function getTagById(tagId) {

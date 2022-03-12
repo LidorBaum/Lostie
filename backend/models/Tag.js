@@ -63,6 +63,10 @@ TagSchema.statics.updateTag = async function (tagObj) {
   );
 };
 
+TagSchema.statics.getTagsCount = function(){
+  return this.countDocuments({})
+}
+
 TagSchema.statics.createTag = function (tagObj) {
   return this.create(tagObj);
 };

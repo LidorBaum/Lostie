@@ -14,6 +14,8 @@ tagRouter.get("/", getAllTags);
 
 tagRouter.get("/fake", createFakeTag);
 
+tagRouter.get("/total", getTagsCount);
+
 tagRouter.get("/user/:userId", getUserTags);
 
 tagRouter.put("/edit/:tagId([A-Fa-f0-9]{24})", updateTag);
@@ -51,6 +53,15 @@ async function getTagByIdForScan(req, res) {
       phoneNumber: ownerObj.phoneNumber,
       email: ownerObj.email,
     });
+  } catch (err) {
+    return responseError(res, err.message);
+  }
+}
+
+async function getTagsCount(req, res){
+  try {
+    const count = await TagModel.getTagsCount()
+    res.send({count});
   } catch (err) {
     return responseError(res, err.message);
   }

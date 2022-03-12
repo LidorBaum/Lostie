@@ -18,6 +18,8 @@ userRouter.get("/fake/", createFakeUser);
 
 userRouter.get("/", getAllUsers);
 
+userRouter.get("/total", getUsersCount);
+
 userRouter.get("/ids", getAllUsersIDs);
 
 userRouter.get("/geocodes", getAllGeocodes);
@@ -80,6 +82,15 @@ async function getUserById(req, res) {
     const { userId } = req.params;
     const user = await UserModel.getById(userId);
     res.send(user);
+  } catch (err) {
+    return responseError(res, err.message);
+  }
+}
+
+async function getUsersCount(req, res) {
+  try {
+    const count = await UserModel.getUsersCount();
+    res.send({count});
   } catch (err) {
     return responseError(res, err.message);
   }

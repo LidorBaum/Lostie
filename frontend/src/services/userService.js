@@ -13,10 +13,16 @@ export default {
     addUser,
     getFilteredUsers,
     getAllGeocodes,
+    getUsersCount
 };
 
 function getAllGeocodes(lat, lng) {
     return httpService.get(`user/geocodes?lat=${lat}&lng=${lng}`);
+}
+
+function getUsersCount(){
+    return httpService.get(`user/total`);
+
 }
 
 function getFilteredUsers(filter = null) {
