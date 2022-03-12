@@ -123,7 +123,7 @@ export default {
         });
         const tagStylesImgs = ref([
             {
-                image: 'https://res.cloudinary.com/echoshare/image/upload/v1646569388/Lostie/sparki_qoj0gr.png',
+                image: 'https://res.cloudinary.com/echoshare/image/upload/v1647103490/Lostie/TagStyles/explorer_rcbarh.png',
             },
         ]);
         const currentStyle = ref({

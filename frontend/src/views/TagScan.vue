@@ -85,7 +85,6 @@ export default {
         //when user travels to different page, it back
         const beautifyHeader = () => {
             if (loggedUser.value?.name) return;
-            console.log('no logg');
             userStore.setLoggedUser({ name: 'scannersecret' });
         };
         const unBeautifyHeader = () => {
@@ -97,7 +96,6 @@ export default {
             setTimeout(() => {
                 const tagId = route.params.id;
                 const scan = route.query.scan;
-                console.log(scan == 1);
                 if (scan == 1) beautifyHeader();
                 fetchTagObj(tagId);
             }, 100);
@@ -112,7 +110,6 @@ export default {
         // });
 
         //when passing through props - dot value not needed
-        console.log(props.tagObj);
         watch(
             () => props.tagObj,
             async () => {
