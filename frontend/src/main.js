@@ -32,9 +32,9 @@ const app = createApp(App);
 app.use(PrimeVue);
 app.use(createPinia());
 app.use(ToastService);
-const GoogleAPIKey = process.env.GOOGLE || ''
+const GoogleAPIKey = process.env.VUE_APP_ENVIRONMENT || ''
 console.log(GoogleAPIKey, 'google api key');
-console.log(process.env);
+console.log(process.env, 'this is the process env ');
 app.use(VueGoogleMaps, {
     load: {
         key: GoogleAPIKey,
