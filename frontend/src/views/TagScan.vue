@@ -84,11 +84,11 @@ export default {
         //all buttons are removed excepty for the logo
         //when user travels to different page, it back
         const beautifyHeader = () => {
-            if(loggedUser.value?.name) return
+            if (loggedUser.value?.name) return;
             userStore.setLoggedUser({ name: 'scannersecret' });
         };
         const unBeautifyHeader = () => {
-            if(loggedUser.value?.name !== 'scannersecret') return
+            if (loggedUser.value?.name !== 'scannersecret') return;
             userStore.setLoggedUser(null);
         };
 
@@ -103,7 +103,7 @@ export default {
         });
 
         onUnmounted(() => {
-            unBeautifyHeader()
+            unBeautifyHeader();
         });
 
         // const dogGender = computed(() => {

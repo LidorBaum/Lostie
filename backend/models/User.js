@@ -91,9 +91,9 @@ UserSchema.statics.deleteUser = function (userId) {
   return this.deleteOne({ _id: userId });
 };
 
-UserSchema.statics.getUsersCount = function (){
-  return this.countDocuments({})
-}
+UserSchema.statics.getUsersCount = function () {
+  return this.countDocuments({});
+};
 
 UserSchema.statics.updateUser = function (userObj) {
   return this.findOneAndUpdate(

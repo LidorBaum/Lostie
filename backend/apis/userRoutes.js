@@ -11,7 +11,6 @@ const userRouter = express.Router();
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-
 userRouter.post("/", createUser);
 
 userRouter.get("/fake/", createFakeUser);
@@ -90,7 +89,7 @@ async function getUserById(req, res) {
 async function getUsersCount(req, res) {
   try {
     const count = await UserModel.getUsersCount();
-    res.send({count});
+    res.send({ count });
   } catch (err) {
     return responseError(res, err.message);
   }
@@ -98,24 +97,30 @@ async function getUsersCount(req, res) {
 
 async function getAllGeocodes(req, res) {
   try {
-    const {lat, lng} = req.query
+    const { lat, lng } = req.query;
     const users = await UserModel.getAllUsers();
-    const tags = await TagModel.getAllTags()
+    const tags = await TagModel.getAllTags();
     //ADD TAGS COUNT PER USER ALGORITHM
     let usersGeos = [];
     users.forEach((element, idx) => {
       usersGeos.push({ id: idx, position: element.geocode });
     });
-    const nearVetsRes = await fetch(`https://maps.googleapis.com/maps/api/place/search/json?location=${lat},${lng}&radius=2000&types=veterinary_care&sensor=false&key=AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA`,{method: "GET"})
-    const nearVetsObj = await nearVetsRes.json()
-    let nearVetsGeos = []
+    const nearVetsRes = await fetch(
+      `https://maps.googleapis.com/maps/api/place/search/json?location=${lat},${lng}&radius=2000&types=veterinary_care&sensor=false&key=AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA`,
+      { method: "GET" }
+    );
+    const nearVetsObj = await nearVetsRes.json();
+    let nearVetsGeos = [];
     nearVetsObj.results.forEach((vet, idx) => {
-      nearVetsGeos.push({id: (idx*100)+100, position: vet.geometry.location, name: vet.name })
-  });  
-    res.send({usersGeos, nearVetsGeos});
+      nearVetsGeos.push({
+        id: idx * 100 + 100,
+        position: vet.geometry.location,
+        name: vet.name,
+      });
+    });
+    res.send({ usersGeos, nearVetsGeos });
   } catch (err) {
     return responseError(res, err.message);
-
   }
 }
 

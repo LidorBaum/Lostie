@@ -9,18 +9,18 @@
                 />
             </router-link>
             <Transition name="switch" mode="out-in">
-            <Button
-                v-if="!loggedUser?.name"
-                label="Login / Signup"
-                class="login-btn p-button-text"
-                @click="onLogin"
-            />
-            <Menubar
-                v-else-if="loggedUser.name !== 'scannersecret'"
-                :model="menuItems"
-                :class="isMenuOpen ? '' : 'menu'"
-            >
-            </Menubar>
+                <Button
+                    v-if="!loggedUser?.name"
+                    label="Login / Signup"
+                    class="login-btn p-button-text"
+                    @click="onLogin"
+                />
+                <Menubar
+                    v-else-if="loggedUser.name !== 'scannersecret'"
+                    :model="menuItems"
+                    :class="isMenuOpen ? '' : 'menu'"
+                >
+                </Menubar>
             </Transition>
         </div>
         <Dialog

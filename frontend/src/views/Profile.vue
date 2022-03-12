@@ -160,7 +160,6 @@ import tagService from '../services/tagService';
 import userService from '../services/userService';
 import { FingerprintSpinner } from 'epic-spinners';
 
-
 export default {
     setup() {
         const paginatorRows = ref(2);
@@ -305,8 +304,8 @@ export default {
             dialogWidth,
         };
     },
-    components:{
-FingerprintSpinner
-    }
+    components: {
+        FingerprintSpinner,
+    },
 };
 </script>

@@ -58,10 +58,10 @@ async function getTagByIdForScan(req, res) {
   }
 }
 
-async function getTagsCount(req, res){
+async function getTagsCount(req, res) {
   try {
-    const count = await TagModel.getTagsCount()
-    res.send({count});
+    const count = await TagModel.getTagsCount();
+    res.send({ count });
   } catch (err) {
     return responseError(res, err.message);
   }

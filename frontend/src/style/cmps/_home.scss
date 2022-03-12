@@ -35,12 +35,12 @@
         justify-content: center;
         gap: 20px;
         align-items: center;
-        .about{
+        .about {
             width: 800px;
-            h1{
+            h1 {
                 text-align: center;
             }
-            p{
+            p {
                 text-align: center;
                 font-size: 1.4rem;
             }
@@ -71,24 +71,24 @@
 }
 
 @media only screen and (max-width: 750px) {
-    .home-page{
+    .home-page {
         overflow: hidden;
-        .hero{
+        .hero {
             flex-direction: column;
             margin-top: 0;
             gap: 10px;
-            p{
+            p {
                 text-align: center;
                 font-size: 4rem;
-                strong{
+                strong {
                     display: block;
                 }
             }
         }
-        .gmap-about-container{
+        .gmap-about-container {
             flex-direction: column;
-            .about{
-                width: 100%
+            .about {
+                width: 100%;
             }
         }
     }

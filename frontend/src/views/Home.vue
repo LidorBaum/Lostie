@@ -15,7 +15,8 @@
                 <p>
                     Lostie is your way to ensure that if your pet is lost,
                     everyone with a smartphone will be able to know how to
-                    contact you when he's found. Join now to {{counters?.users}} peoples and {{counters?.tags}}
+                    contact you when he's found. Join now to
+                    {{ counters?.users }} peoples and {{ counters?.tags }}
                     pets that are already using Lostie tags.
                 </p>
             </div>
@@ -99,17 +100,17 @@ export default {
         const openedMarkerID = ref(null);
         const clusterIcon = ref([
             {
-                textColor:'black',
+                textColor: 'black',
                 url: 'https://res.cloudinary.com/echoshare/image/upload/c_scale,w_65/v1646929359/Lostie/clusterPaw_rmmnt2.png',
-                    anchorIcon: [50, 50 ],
-                    anchorText: [35, 22],
-                    textSize: '20',
+                anchorIcon: [50, 50],
+                anchorText: [35, 22],
+                textSize: '20',
             },
         ]);
         const counters = ref({
             users: null,
-            tags: null
-        })
+            tags: null,
+        });
         const markers = ref([]);
         window.markers = markers;
         const getUserLocation = () => {
@@ -156,15 +157,15 @@ export default {
             openedMarkerID.value = id;
         };
 
-        const getCounters = async () =>{
-            const users = await userService.getUsersCount()
-            const tags = await tagService.getTagsCount()
-            return {users: users.count, tags: tags.count}
-        }
+        const getCounters = async () => {
+            const users = await userService.getUsersCount();
+            const tags = await tagService.getTagsCount();
+            return { users: users.count, tags: tags.count };
+        };
 
         onMounted(async () => {
             const userGeo = await getUserLocation();
-            counters.value = await getCounters()
+            counters.value = await getCounters();
             console.log(counters.value);
         });
 
@@ -175,7 +176,7 @@ export default {
             openMarker,
             openedMarkerID,
             clusterIcon,
-            counters
+            counters,
         };
     },
     components: {

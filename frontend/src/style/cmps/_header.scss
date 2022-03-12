@@ -19,11 +19,11 @@
         // margin-left: 100px
         // margin-inline-end: 65px;
         // transition: margin-inline-end 0.2s ease-in-out;
-    }.p-menubar.p-menubar-mobile-active .p-menubar-root-list{
-
-        left: -200%
     }
-    .p-menubar .p-menubar-root-list{
+    .p-menubar.p-menubar-mobile-active .p-menubar-root-list {
+        left: -200%;
+    }
+    .p-menubar .p-menubar-root-list {
         width: auto;
     }
 
@@ -42,7 +42,7 @@
             font-size: 1rem;
         }
     }
-    a:only-child{
+    a:only-child {
         margin: 0 auto;
     }
 }
