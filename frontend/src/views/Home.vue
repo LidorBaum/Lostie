@@ -197,8 +197,8 @@ export default {
         };
 
         onMounted(async () => {
-            // const userGeo = await getUserLocation();
-            // counters.value = await getCounters();
+            const userGeo = await getUserLocation();
+            counters.value = await getCounters();
             const products = await productService.getAllProducts();
             if (products.error) {
                 return notificationStore.newNotification(

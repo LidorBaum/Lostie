@@ -50,7 +50,7 @@ ProductSchema.statics.getUserProducts = function (userId) {
 };
 
 ProductSchema.statics.getAllProducts = function () {
-  return this.find({}).exec();
+  return this.find({}).sort({_id: -1}).exec();
 };
 
 ProductSchema.statics.getProductById = function (productId) {

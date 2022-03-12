@@ -47,7 +47,6 @@
         justify-content: center;
         gap: 20px;
         align-items: center;
-        margin-top: 20px;
         .about {
             width: 800px;
             h1 {
@@ -109,6 +108,7 @@
         }
         .gmap-about-container {
             flex-direction: column;
+            margin-top: 20px;;
             .about {
                 width: 100%;
             }

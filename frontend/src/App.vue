@@ -8,7 +8,7 @@
         </div>
         <Footer />
     </div>
-    <ScrollTop threshold="100" behavior='smooth'/>
+    <ScrollTop :threshold="100" behavior='smooth'/>
 </template>
 
 <script>
@@ -44,7 +44,6 @@ export default {
             life = 3000,
             detail = ''
         ) => {
-            console.log(severity, life);
             toast.add({
                 severity: severity,
                 summary: summary,

@@ -20,7 +20,6 @@
                 <div class="user-tags">
                     <Paginator
                         v-if="userTags.length"
-                        v-model:first="first"
                         :rows="paginatorRows"
                         :totalRecords="userTags.length"
                         template=" PageLinks  "
@@ -185,8 +184,6 @@ export default {
         const userTagsForDisplay = ref(
             computed(() => {
                 if (!userTags.value.length) return [];
-                console.log(currTagsPage.value, 'current page');
-                console.log((currTagsPage.value - 1) * paginatorRows.value);
                 return userTags.value.slice(
                     (currTagsPage.value - 1) * paginatorRows.value,
                     paginatorRows.value +
@@ -196,14 +193,12 @@ export default {
         );
 
         const onPaging = e => {
-            console.log(e);
             currTagsPage.value = e.page + 1;
         };
 
         const getUserTags = async () => {
             if (!loggedUser.value) return;
             const res = await tagService.getUserTags(loggedUser.value._id);
-            console.log(res);
             if (res.length === 0) return (userTags.value = [0]);
             return (userTags.value = res);
         };
@@ -211,7 +206,6 @@ export default {
         const prepareEditInfoForm = () => {
             if (!loggedUser.value) return;
             Object.assign(userInfoForm, loggedUser.value);
-            console.log(userInfoForm, 'userInfoForm');
         };
 
         const saveInfo = async () => {
