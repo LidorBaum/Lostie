@@ -4,18 +4,23 @@
         <div class="hero">
             <p>Welcome to <strong>Lostie</strong></p>
             <div class="nfc-tag">
-                <img
-                    src="https://res.cloudinary.com/echoshare/image/upload/v1646569388/Lostie/sparki_qoj0gr.png"
-                />
+                <Transition :name="animationName" mode="out-in">
+                    <img :src="currentStyle.image" :key="currentStyle.image" />
+                </Transition>
             </div>
         </div>
         <div class="gmap-about-container">
             <div class="about">
-                <h1>What is Lostie?</h1>
+                <h1>What is <strong>Lostie?</strong></h1>
                 <p>
                     Lostie is your way to ensure that if your pet is lost,
                     everyone with a smartphone will be able to know how to
                     contact you when he's found. Join now to
+                    {{ counters?.users }} peoples and {{ counters?.tags }}
+                    pets that are already using Lostie tags. Lostie is your way
+                    to ensure that if your pet is lost, everyone with a
+                    smartphone will be able to know how to contact you when he's
+                    found. Join now to
                     {{ counters?.users }} peoples and {{ counters?.tags }}
                     pets that are already using Lostie tags.
                 </p>
@@ -37,13 +42,13 @@
                             :icon="
                                 m.id < 99
                                     ? {
-                                          url: 'https://res.cloudinary.com/echoshare/image/upload/v1647042668/Lostie/Paw_Print_jalprc.png',
+                                          url: 'https://res.cloudinary.com/echoshare/image/upload/v1647099353/Lostie/Paw_Print_oejhod.png',
                                           scaledSize: { width: 70, height: 85 },
                                       }
                                     : ''
                             "
                             :key="index"
-                            label="V"
+                            :label="m.tagCount"
                             v-for="(m, index) in markers"
                             :position="m.position"
                             :clickable="true"
@@ -56,7 +61,7 @@
                                 :opened="openedMarkerID === m.id"
                                 :options="{
                                     pixelOffset: {
-                                        width: 10,
+                                        width: 0,
                                         height: 0,
                                     },
                                     maxWidth: 320,
@@ -92,9 +97,14 @@ import {
 } from '../services/utils';
 import userService from '../services/userService';
 import tagService from '../services/tagService';
+import productService from '../services/productService';
 
 export default {
     setup() {
+        const animationName = ref('logo');
+        if (window.screen.width < 1000) {
+            animationName.value = 'logoMobile';
+        }
         const mapCenter = ref({ lat: 31.9730015, lng: 34.7925013, zoom: 5 });
         const options = ref(mapStyleDarkBlue);
         const openedMarkerID = ref(null);
@@ -110,6 +120,15 @@ export default {
         const counters = ref({
             users: null,
             tags: null,
+        });
+        const tagStylesImgs = ref([
+            {
+                image: 'https://res.cloudinary.com/echoshare/image/upload/v1646569388/Lostie/sparki_qoj0gr.png',
+            },
+        ]);
+        const currentStyle = ref({
+            idx: -1,
+            image: tagStylesImgs.value[0].image,
         });
         const markers = ref([]);
         window.markers = markers;
@@ -163,10 +182,32 @@ export default {
             return { users: users.count, tags: tags.count };
         };
 
+        const startStylesGallery = () => {
+            const interval = setInterval(() => {
+                if (currentStyle.value.idx === tagStylesImgs.value.length - 1) {
+                    currentStyle.value.idx = 0;
+                    currentStyle.value.image =
+                        tagStylesImgs.value[currentStyle.value.idx].image;
+                } else {
+                    currentStyle.value.idx++;
+                    currentStyle.value.image =
+                        tagStylesImgs.value[currentStyle.value.idx].image;
+                }
+            }, 3500);
+        };
+
         onMounted(async () => {
-            const userGeo = await getUserLocation();
-            counters.value = await getCounters();
-            console.log(counters.value);
+            // const userGeo = await getUserLocation();
+            // counters.value = await getCounters();
+            const products = await productService.getAllProducts();
+            if (products.error) {
+                return notificationStore.newNotification(
+                    'error',
+                    res.error.message
+                );
+            }
+            tagStylesImgs.value = products;
+            startStylesGallery();
         });
 
         return {
@@ -177,6 +218,9 @@ export default {
             openedMarkerID,
             clusterIcon,
             counters,
+            tagStylesImgs,
+            currentStyle,
+            animationName
         };
     },
     components: {
@@ -188,3 +232,46 @@ export default {
     },
 };
 </script>
+<style>
+.logo-enter-from {
+    /* transform: rotate(-360deg); */
+    /* transform: rotateY(90deg); */
+    transform: translateY(-1000px);
+}
+.logo-leave-to {
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-1000px);
+
+    /* transform: rotateY(90deg); */
+    /* transform: rotate(360deg); */
+}
+.logo-enter-active {
+    transition: all 0.8s cubic-bezier(0.56, 0.04, 0.14, 0.89);
+}
+.logo-leave-active {
+    transition: all 0.8s cubic-bezier(0.56, 0.04, 0.14, 0.89);
+}
+
+
+.logoMobile-enter-from {
+    /* transform: rotate(-360deg); */
+    /* transform: rotateY(90deg); */
+    transform: rotate(360deg);
+    opacity: 1;
+
+
+}
+.logoMobile-leave-to {
+    opacity: 0;
+    overflow: hidden;
+    transform: rotate(360deg);
+
+}
+.logoMobile-enter-active {
+    transition: all 0.5s cubic-bezier(0.56, 0.04, 0.14, 0.89);
+}
+.logoMobile-leave-active {
+    transition: all 0.5s cubic-bezier(0.56, 0.04, 0.14, 0.89);
+}
+</style>

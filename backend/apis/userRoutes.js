@@ -103,7 +103,7 @@ async function getAllGeocodes(req, res) {
     //ADD TAGS COUNT PER USER ALGORITHM
     let usersGeos = [];
     users.forEach((element, idx) => {
-      usersGeos.push({ id: idx, position: element.geocode });
+      usersGeos.push({ id: idx, position: element.geocode, tagCount: element.tagIds.length.toString() });
     });
     const nearVetsRes = await fetch(
       `https://maps.googleapis.com/maps/api/place/search/json?location=${lat},${lng}&radius=2000&types=veterinary_care&sensor=false&key=AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA`,

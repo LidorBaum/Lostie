@@ -45,7 +45,7 @@
                 <FingerprintSpinner
                     :animation-duration="1400"
                     :size="300"
-                    color="#ff1d5e"
+                    color="#15b485"
                 />
             </div>
         </Transition>
