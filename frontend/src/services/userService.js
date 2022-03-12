@@ -67,7 +67,7 @@ async function signup(userCred) {
     if (!data.results[0]?.geometry)
         return {
             error: {
-                message: 'Emotional Damage',
+                message: 'Please precise your address.',
             },
         };
     console.log(data.results[0].geometry.location.lat);
