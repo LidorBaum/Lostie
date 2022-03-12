@@ -33,14 +33,11 @@ app.use(PrimeVue);
 app.use(createPinia());
 app.use(ToastService);
 const GoogleAPIKey = process.env.VUE_APP_GOOGLE || ''
-console.log(GoogleAPIKey, 'google api key');
-console.log(process.env, 'this is the process env ');
 app.use(VueGoogleMaps, {
     load: {
         key: GoogleAPIKey,
     },
 });
-//AIzaSyA0PnKw6ClT_i8_c4ePtiXRLg7MjyC4VCA
 app.directive('tooltip', Tooltip);
 app.component('Paginator', Paginator);
 app.component('ProgressSpinner', ProgressSpinner);
