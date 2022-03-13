@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { ref, computed, reactive } from 'vue';
+import { computed } from 'vue';
 
 export default {
     emits: ['onCancel', 'onSave'],

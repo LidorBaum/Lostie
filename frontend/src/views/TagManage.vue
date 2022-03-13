@@ -374,13 +374,11 @@ export default {
                 );
             }
             notificationStore.newNotification('success', 'Saved');
-            // Object.assign(tagObj.value, updatedTag);
             tagObj.value = { ...tagObj.value, ...updatedTag };
             availableStatusOptions.value = statusOptions[tagObj.value?.status];
             if (fieldName === 'status')
                 availableStatusOptions.value =
                     statusOptions[tagObj.value?.status];
-
             tagFormIsEditingMap[fieldName] = false;
         };
 
@@ -426,7 +424,6 @@ export default {
                     clearInterval(interval);
                 }, 7000);
             }
-            //NOTIFICATION ON ERROR !
             tagObj.value = tag;
         };
 
@@ -447,14 +444,6 @@ export default {
             tagForm.gender = tagForm.gender === 'Male';
             availableStatusOptions.value = statusOptions[tagObj.value?.status];
         };
-
-        userStore.$subscribe((mutation, state) => {
-            // console.log(tagObj.value);
-            // if(tagObj.value?._id === route.params.id) console.log('same same new name');
-            // const tagId = route.params.id;
-            // fetchTagObj(tagId);
-            // prepareEditInfoForm();
-        });
 
         onMounted(() => {
             setTimeout(async () => {

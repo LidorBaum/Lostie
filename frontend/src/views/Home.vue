@@ -15,11 +15,13 @@
                 <p>
                     Lostie is your way to ensure that if your pet is lost,
                     everyone with a smartphone will be able to know how to
-                    contact you when he's found.<br /> Join now to
-                    <span>{{ counters?.users }} peoples </span> and <span>{{ counters?.tags }}
-                    pets </span> that are already using Lostie tags. <br />
-                    In the map you can see the users and their tags count. If you allowed location services, 
-                    you will see nearby Vet-Cares (red markers)
+                    contact you when he's found.<br />
+                    Join now to <span>{{ counters?.users }} peoples </span> and
+                    <span>{{ counters?.tags }} pets </span> that are already
+                    using Lostie tags. <br />
+                    In the map you can see the users and their tags count. If
+                    you allowed location services, you will see nearby Vet-Cares
+                    (red markers)
                 </p>
             </div>
             <div class="gmap">
@@ -45,7 +47,11 @@
                                     : ''
                             "
                             :key="index"
-                            :label="m.tagCount !== '0' && m.tagCount!== '1' ? m.tagCount: ''"
+                            :label="
+                                m.tagCount !== '0' && m.tagCount !== '1'
+                                    ? m.tagCount
+                                    : ''
+                            "
                             v-for="(m, index) in markers"
                             :position="m.position"
                             :clickable="true"
@@ -78,8 +84,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 import {
     GMapMap,
     GMapMarker,
@@ -91,7 +95,6 @@ import {
     mapStyleGreen,
     mapStyleDark,
     mapStyleDarkBlue,
-    vetsDemo,
 } from '../services/utils';
 import userService from '../services/userService';
 import tagService from '../services/tagService';
@@ -218,7 +221,7 @@ export default {
             counters,
             tagStylesImgs,
             currentStyle,
-            animationName
+            animationName,
         };
     },
     components: {
@@ -254,7 +257,6 @@ export default {
     opacity: 0;
     overflow: hidden;
     transform: rotate(360deg);
-
 }
 .logoMobile-enter-active {
     transition: all 0.5s cubic-bezier(0.56, 0.04, 0.14, 0.89);

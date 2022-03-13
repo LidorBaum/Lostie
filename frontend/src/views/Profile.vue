@@ -199,6 +199,12 @@ export default {
         const getUserTags = async () => {
             if (!loggedUser.value) return;
             const res = await tagService.getUserTags(loggedUser.value._id);
+             if (res.error) {
+                return notificationStore.newNotification(
+                    'error',
+                    res.error.message
+                );
+            }
             if (res.length === 0) return (userTags.value = [0]);
             return (userTags.value = res);
         };
