@@ -2,9 +2,8 @@ const express = require("express");
 
 const TelegramBot = require('node-telegram-bot-api');
 
-// const TELEGRAM = '5140385413:AAHA2ZS0fPyv1mr2Q18x5RT8vKXpBq9-b_g'
 const TELEGRAM = process.env.NODE_TELEGRAM
-console.log(TELEGRAM, 'telegram from proces');
+
 const bot = new TelegramBot(TELEGRAM, { polling: true });
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
