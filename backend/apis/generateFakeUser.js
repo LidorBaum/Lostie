@@ -51,7 +51,7 @@ const generateEmail = (fullName) => {
   return email;
 };
 
-const password = "1";
+const password = "qwerty123";
 let address = generateAddress();
 const getGeocode = async () => {
   const res = await fetch(
