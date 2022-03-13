@@ -88,8 +88,7 @@ async function getUserById(req, res) {
 
 async function getUsersCount(req, res) {
   try {
-    console.log(req.headers['x-forwarded-for'], 'ip')
-    console.log(req.ip, 'ip2')
+
     const count = await UserModel.getUsersCount();
     res.send({ count });
   } catch (err) {

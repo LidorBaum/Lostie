@@ -21,6 +21,7 @@ import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import { useToast } from 'primevue/usetoast';
 import userService from './services/userService';
+import loggerService from './services/loggerService';
 
 export default {
     setup() {
@@ -58,6 +59,7 @@ export default {
                 const updated = await userService.getById(userJSON._id);
                 userStore.setLoggedUser(updated);
             }
+            await loggerService.logVisitor()
         });
 
         return {
