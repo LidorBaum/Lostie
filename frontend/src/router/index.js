@@ -57,8 +57,6 @@ router.beforeResolve((to, from, next) => {
     const requiresAuth = to.matched.some(
         record => record.meta.requiresAuth
     );
-    console.log(requiresAuth, to.query, store.loggedUser?._id);
-
 
     if (requiresLogged && !store.loggedUser) {
         if (!Cookies.get('user')) {
