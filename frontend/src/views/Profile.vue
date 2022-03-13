@@ -33,11 +33,10 @@
                             <h2>Wanna order one now?</h2>
                         </div>
                         <div v-else-if="userTags.length" class="tags-list">
-                            <a
-                                v-for="tag in userTagsForDisplay"
-                                :key="tag._id"
-                                :href="`tag/manage/${tag._id}?auth=${tag.userId}`"
-                            >
+                            <router-link  v-for="tag in userTagsForDisplay"
+                                :key="tag._id" :to="`/tag/manage/${tag._id}?auth=${tag.userId}`">
+                                
+
                                 <article
                                     class="tag-card"
                                     v-tooltip.top="`${tag.status}`"
@@ -50,7 +49,8 @@
                                         :src="tag.productDetails.image"
                                     />
                                 </article>
-                            </a>
+
+                            </router-link>
                         </div>
                         <div v-else class="loader-div tags-loader-div">
                             <FingerprintSpinner

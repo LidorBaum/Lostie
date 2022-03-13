@@ -8,11 +8,11 @@
         </div>
         <Footer />
     </div>
-    <ScrollTop :threshold="100" behavior='smooth'/>
+    <ScrollTop :threshold="100" behavior="smooth" />
 </template>
 
 <script>
-import { onMounted, onBeforeMount, watch } from 'vue';
+import { onMounted, onBeforeMount, watch, created } from 'vue';
 import Cookies from 'js-cookie';
 import { useNotificationStore } from './store/useNotification';
 import { useUserStore } from './store/useUser';
@@ -52,13 +52,14 @@ export default {
             });
         };
 
-        onBeforeMount(async ()=>{
-              if (Cookies.get('user')) {
+        onBeforeMount(async () => {
+            if (Cookies.get('user')) {
                 const userJSON = JSON.parse(Cookies.get('user'));
                 const updated = await userService.getById(userJSON._id);
                 userStore.setLoggedUser(updated);
             }
-        })
+        });
+
         return {
             loggedUser,
             notificationData,

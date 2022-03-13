@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useUserStore } from '../store/useUser';
 import { useNotificationStore } from '../store/useNotification';
+import Cookies from 'js-cookie';
+
 import Home from '../views/Home.vue';
 
 const routes = [
@@ -13,7 +15,7 @@ const routes = [
         path: '/tag/manage/:id',
         name: 'TagManage',
         component: () => import('../views/TagManage.vue'),
-        meta:{
+        meta: {
             requiresAuth: true,
             requiresLogged: true
         }
@@ -28,7 +30,7 @@ const routes = [
         name: 'Profile',
         component: () => import('../views/Profile.vue'),
         meta: {
-          requiresLogged: true
+            requiresLogged: true
         }
     },
     {
@@ -36,7 +38,7 @@ const routes = [
         name: 'Order',
         component: () => import('../views/Order.vue'),
         meta: {
-          requiresLogged: true
+            requiresLogged: true
         }
     },
 ];
@@ -48,28 +50,33 @@ const router = createRouter({
 
 router.beforeResolve((to, from, next) => {
     const store = useUserStore();
-    
+
     const requiresLogged = to.matched.some(
         record => record.meta.requiresLogged
     );
     const requiresAuth = to.matched.some(
         record => record.meta.requiresAuth
     );
-    if (requiresLogged && !store.loggedUser){
-        const notificationStore = useNotificationStore();
-        notificationStore.newNotification(
-            'warn',
-            'Please login to view this page.'
-        );
-        next({ name: 'Home' });
+    console.log(requiresAuth, to.query, store.loggedUser?._id);
+
+
+    if (requiresLogged && !store.loggedUser) {
+        if (!Cookies.get('user')) {
+            const notificationStore = useNotificationStore();
+            notificationStore.newNotification(
+                'warn',
+                'Please login to view this page.'
+            );
+            next({ name: 'Home' });
+        }
     }
-    if(requiresAuth && to.query.auth !== store.loggedUser?._id) {
+    if (requiresAuth && to.query.auth !== store.loggedUser?._id) {
         const notificationStore = useNotificationStore();
         notificationStore.newNotification(
             'warn',
             'You are not allowed to view this page.'
         );
-        next({name: 'Home'}) 
+        next({ name: 'Home' })
     }
     else next();
 });
