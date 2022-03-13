@@ -225,7 +225,6 @@ export default {
         };
     },
     components: {
-        HelloWorld,
         GMapMap,
         GMapMarker,
         GMapInfoWindow,
