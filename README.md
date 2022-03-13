@@ -23,7 +23,7 @@ Live hosting of this project is at https://lostie.herokuapp.com/ <br/>
 Please allow about 30 seconds for the server to boot <br />
 If you want to see what happens when you scan a tag you can visit https://lostie.herokuapp.com/tag/622cfbe5f8adb230968c75e5 <br/>
 Credenatials for playground: <br />
-email: `GithuberVuer@yahoo.com` <br />
+email: `GithuberVuer@walla.co.il` <br />
 password: `qwerty123` <br />
 Or you can sign up and create your own profile :)
 
