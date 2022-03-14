@@ -1,6 +1,8 @@
+const mongoURL = process.env.NODE_MONGOURL
+console.log(mongoURL);
 module.exports = {
   dbURL:
-    "mongodb+srv://Lidor:1234@cluster0.bphmz.mongodb.net/Lostie?retryWrites=true&w=majority",
-  baseURL: "https://cubee3dordermanagement.herokuapp.com/",
+    mongoURL,
+  baseURL: "https://lostie.herokuapp.com/",
   env: "prod",
 };
