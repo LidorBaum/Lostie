@@ -1,4 +1,4 @@
-const mongoURL = 'localHeroku'
+const mongoURL = 'secret'
 console.log(mongoURL);
 module.exports = {
   dbURL:

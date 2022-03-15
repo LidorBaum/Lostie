@@ -102,6 +102,7 @@
             flex-direction: column;
             margin-top: 40px;
             gap: 10px;
+            height: 350px;
             p {
                 text-align: center;
                 font-size: 4rem;
@@ -111,6 +112,7 @@
                 }
             }
             .nfc-tag{
+            height: 300px;
                 img{
                     margin-top: 30px;
                     width: 100%;

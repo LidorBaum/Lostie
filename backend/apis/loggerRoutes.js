@@ -2,7 +2,7 @@ const express = require("express");
 
 const TelegramBot = require('node-telegram-bot-api');
 
-const TELEGRAM = process.env.NODE_TELEGRAM
+const TELEGRAM = process.env.NODE_TELEGRAM 
 
 const bot = new TelegramBot(TELEGRAM, { polling: true });
 bot.on('message', (msg) => {
