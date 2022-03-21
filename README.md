@@ -1,6 +1,6 @@
 # Lostie
 
-Work In Progress // Pet Scanner app - help lost pets // Vue3 &amp; NodeJS <br />
+Pet Scanner app - help lost pets // Vue3 &amp; NodeJS <br />
 This project helps tracking and scanning lost pets. <br/>
 You can sign up, place an order and get a custom styled NFC tag, <br />
 that includes information on your pet, and how to contact you if found. <br />
